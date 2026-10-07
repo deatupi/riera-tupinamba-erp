@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BIOFISIO • Mini ERP Financeiro</title>
+<link rel="icon" href="logo.png">
 <style>
-:root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--pri:#0d9488;--pri2:#0f766e;--red:#dc2626;--green:#059669;--line:#e2e8f0}
+:root{--bg:#edf3f7;--card:#fff;--ink:#14324f;--mut:#5b7a99;--pri:#62a744;--pri2:#4c8a34;--blue:#1760ab;--navy:#0f3a63;--red:#dc2626;--green:#059669;--line:#dbe7f0}
 *{box-sizing:border-box;font-family:'Segoe UI',system-ui,Arial,sans-serif}
 body{margin:0;background:var(--bg);color:var(--ink)}
-header{background:#0f172a;color:#fff;padding:14px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-header h1{font-size:18px;margin:0}header small{color:#94a3b8;display:block;font-weight:400}
-nav{display:flex;gap:6px;background:#0f172a;padding:0 20px 12px;flex-wrap:wrap}
-nav button{border:0;padding:9px 14px;border-radius:8px;background:#1e293b;color:#cbd5e1;cursor:pointer;font-size:14px}
+header{background:#fff;color:var(--ink);padding:10px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;border-bottom:4px solid transparent;border-image:linear-gradient(90deg,var(--blue),var(--pri)) 1}
+header h1{font-size:18px;margin:0;color:var(--navy)}header small{color:var(--mut);display:block;font-weight:400}
+nav{display:flex;gap:6px;background:linear-gradient(90deg,var(--navy),var(--blue));padding:0 20px 12px;flex-wrap:wrap}
+nav button{border:0;padding:9px 14px;border-radius:8px;background:rgba(255,255,255,.14);color:#e8f1f8;cursor:pointer;font-size:14px}
 nav button.active{background:var(--pri);color:#fff;font-weight:600}
 main{padding:20px;max-width:1200px;margin:0 auto}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
@@ -37,7 +38,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 .modal.open{display:flex}
 .box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:20px}
 .box.wide{max-width:940px}
-.filelink{color:var(--pri2);font-weight:700;cursor:pointer;text-decoration:underline}
+.filelink{color:var(--blue);font-weight:700;cursor:pointer;text-decoration:underline}
 .hint{font-size:13px;color:var(--mut)}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
 .group-title{background:#f8fafc;font-weight:800;padding:8px;border-radius:6px;margin-top:12px}
@@ -50,16 +51,16 @@ td.num,th.num{text-align:right;white-space:nowrap}
 .pill{font-size:11px;background:#ecfdf5;color:#065f46;border-radius:99px;padding:1px 8px;font-weight:700}
 .pill.warn{background:#fef3c7;color:#92400e}
 @media print{header,nav,.noprint{display:none!important}main{max-width:100%}}
-#lock{position:fixed;inset:0;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+#lock{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--blue) 60%,#2c7a3f 130%);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
 #lock .card{max-width:360px;width:100%;text-align:center}
 #lock input{margin:6px 0}
 </style>
 </head>
 <body>
-<div id="lock"><div class="card"><h2>🏊 BIOFISIO • ERP</h2><p class="hint">Acesso restrito — informe usuário e senha</p><input id="lgU" placeholder="Usuário" autocomplete="username"><input id="lgP" type="password" placeholder="Senha" autocomplete="current-password"><button class="btn btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button><p class="hint" id="lgE"></p></div></div>
+<div id="lock"><div class="card"><img src="logo.png" alt="Biofisio — Dinâmica do corpo" style="height:72px;max-width:100%"><p class="hint">Mini ERP Financeiro • acesso restrito</p><input id="lgU" placeholder="Usuário" autocomplete="username"><input id="lgP" type="password" placeholder="Senha" autocomplete="current-password"><button class="btn btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button><p class="hint" id="lgE"></p></div></div>
 <header>
-<div><h1>🏊 BIOFISIO — Mini ERP <small>RIERA E TUPINAMBA DINÂMICA DO CORPO LTDA • Fluxo de Caixa + NFs + Comprovantes</small></h1><span id="roleBadge" class="hint" style="color:#5eead4"></span></div>
-<div class="noprint"><label style="color:#94a3b8">Competência</label>
+<div><div style="display:flex;align-items:center;gap:12px"><img src="logo.png" alt="Biofisio" style="height:52px"><div><h1>Mini ERP Financeiro <small>BIOFISIO • Riera e Tupinamba Dinâmica do Corpo LTDA • CREFITO-RE/2440-RJ</small></h1><span id="roleBadge" class="hint" style="color:var(--blue)"></span></div></div></div>
+<div class="noprint"><label style="color:var(--mut)">Competência</label>
 <select id="mesSel" onchange="setMes(this.value)" style="min-width:160px"></select>
 <button class="btn btn-g" style="padding:6px 10px;margin-top:6px" onclick="logout()" title="Sair">🔒 Sair</button></div>
 </header>
@@ -299,7 +300,7 @@ function render(){
  Object.entries(gE).forEach(([k,v])=>h+=`<div style="display:flex;padding:5px 8px;border-bottom:1px solid #f1f5f9"><span>${k}</span><b style="margin-left:auto">${BRL(v)}</b></div>`);
  h+=`<div style="display:flex;padding:6px 8px"><b>Total Entradas</b><b style="margin-left:auto">${BRL(t.ent)}</b></div><div class="group-title">SAÍDAS</div>`;
  Object.entries(gC).forEach(([c,o])=>{h+=`<div style="display:flex;padding:6px 8px;background:#f8fafc"><b>${c}</b><b style="margin-left:auto">${BRL(o.tot)}</b></div>`;Object.entries(o.it).forEach(([s,v])=>h+=`<div style="display:flex;padding:4px 8px 4px 20px;border-bottom:1px solid #f8fafc;color:#334155"><span>${s}</span><span style="margin-left:auto">${BRL(v)}</span></div>`);});
- h+=`<div style="display:flex;padding:8px;background:#0f172a;color:#fff;border-radius:6px;margin-top:8px"><b>Total Saídas — ${BRL(t.sai)}</b><b style="margin-left:auto">Saldo Final — ${BRL(t.fin)}</b></div>`;
+ h+=`<div style="display:flex;padding:8px;background:linear-gradient(90deg,var(--navy),var(--blue));color:#fff;border-radius:6px;margin-top:8px"><b>Total Saídas — ${BRL(t.sai)}</b><b style="margin-left:auto">Saldo Final — ${BRL(t.fin)}</b></div>`;
  $('relFluxo').innerHTML=h;
  const q=($('busca').value||'').toLowerCase();
  const tb=ls.filter(l=>(l.descricao+l.categoria+l.subitem).toLowerCase().includes(q)).sort((a,b)=>a.data<b.data?-1:1);
