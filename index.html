@@ -58,7 +58,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <body>
 <div id="lock"><div class="card"><h2>🏊 BIOFISIO • ERP</h2><p class="hint">Acesso restrito — informe usuário e senha</p><input id="lgU" placeholder="Usuário" autocomplete="username"><input id="lgP" type="password" placeholder="Senha" autocomplete="current-password"><button class="btn btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button><p class="hint" id="lgE"></p></div></div>
 <header>
-<div><h1>🏊 BIOFISIO — Mini ERP <small>RIERA E TUPINAMBA DINÂMICA DO CORPO LTDA • Fluxo de Caixa + NFs + Comprovantes</small></h1></div>
+<div><h1>🏊 BIOFISIO — Mini ERP <small>RIERA E TUPINAMBA DINÂMICA DO CORPO LTDA • Fluxo de Caixa + NFs + Comprovantes</small></h1><span id="roleBadge" class="hint" style="color:#5eead4"></span></div>
 <div class="noprint"><label style="color:#94a3b8">Competência</label>
 <select id="mesSel" onchange="setMes(this.value)" style="min-width:160px"></select>
 <button class="btn btn-g" style="padding:6px 10px;margin-top:6px" onclick="logout()" title="Sair">🔒 Sair</button></div>
@@ -123,7 +123,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="row noprint"><div style="flex:1"><input id="newTE" placeholder="Ex: Pix, Transferência..."></div><div><button class="btn btn-p" onclick="addTE()">Adicionar</button></div></div></div>
 <div class="card"><h3>Categorias de Saída</h3><div id="listCat"></div>
 <div class="row noprint"><div style="flex:1"><input id="newCat" placeholder="Nova categoria. Ex: PESSOAL"></div><div><button class="btn btn-p" onclick="addCat()">Adicionar categoria</button></div></div></div>
-<div class="card noprint"><h3>Dados</h3><div class="toolbar">
+<div class="card noprint" id="dadosCard"><h3>Dados</h3><div class="toolbar">
 <button class="btn btn-s" onclick="backup()">💾 Backup (JSON)</button>
 <button class="btn btn-g" onclick="document.getElementById('restFile').click()">♻ Restaurar backup</button><input type="file" id="restFile" accept=".json" style="display:none" onchange="restore(this)">
 <button class="btn btn-d" onclick="zerar()">🗑 Apagar lançamentos locais</button></div>
@@ -162,13 +162,16 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
 <script>
 // --- ACESSO (barreira client-side: afasta curiosos; não é segurança real) ---
-const AUTH_USER='deatupi@gmail.com';
-const AUTH_HASH='feb04c6eea80b209d83b8be9cc1729ac35b65c2a02c261f5d7155817cb357f18'; // SHA-256 da senha
+const USERS=[
+ {u:'deatupi@gmail.com',h:'feb04c6eea80b209d83b8be9cc1729ac35b65c2a02c261f5d7155817cb357f18',role:'adm'},
+ {u:'atendimento@biofisio.com',h:'204151860f51e39043c83b79dba6ae078a1029506109fe638195e694f275003c',role:'gestor'}
+];
 async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function doLogin(){const u=$('lgU').value.trim(),p=$('lgP').value;if(u===AUTH_USER&&(await sha(p))===AUTH_HASH){sessionStorage.setItem('erp_ok','1');$('lock').style.display='none';}else{$('lgE').textContent='❌ Usuário ou senha inválidos.';}}
-function logout(){sessionStorage.removeItem('erp_ok');location.reload();}
+async function doLogin(){const u=$('lgU').value.trim().toLowerCase(),p=$('lgP').value;const f=USERS.find(x=>x.u===u);if(f&&(await sha(p))===f.h){sessionStorage.setItem('erp_ok','1');sessionStorage.setItem('erp_role',f.role);sessionStorage.setItem('erp_user',f.u);applyRole();$('lock').style.display='none';}else{$('lgE').textContent='❌ Usuário ou senha inválidos.';}}
+function applyRole(){const r=sessionStorage.getItem('erp_role')||'gestor';const adm=r==='adm';$('dadosCard').style.display=adm?'block':'none';$('roleBadge').textContent=(adm?'👑 ADM':'🧑‍💼 GESTOR')+' • '+sessionStorage.getItem('erp_user');}
+function logout(){sessionStorage.removeItem('erp_ok');sessionStorage.removeItem('erp_role');location.reload();}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&$('lock').style.display!=='none')doLogin();});
-if(sessionStorage.getItem('erp_ok')==='1'){$('lock').style.display='none';}
+if(sessionStorage.getItem('erp_ok')==='1'){$('lock').style.display='none';applyRole();}
 
 const KEY='biofisio_erp_v2';
 const MES_N={'2026-05':'Maio/2026','2026-06':'Junho/2026','2026-07':'Julho/2026'};
