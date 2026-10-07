@@ -1245,5 +1245,31 @@
                              "size":  15894,
                              "arquivo":  "Simone.pdf"
                          }
-                     ]
+                     ],
+    "balancetes":  [
+                       {
+                           "mes":  "2026-05",
+                           "path":  "docs/balancetes/2026-05/RIERA E TUPINAMBA_DEMONSTRAÇÃO MAIO 2026.pdf",
+                           "nome":  "RIERA E TUPINAMBA_DEMONSTRAÇÃO MAIO 2026",
+                           "desc":  "Demonstração do Resultado assinada"
+                       },
+                       {
+                           "mes":  "2026-06",
+                           "path":  "docs/balancetes/2026-06/RIERA E TUPINAMBA_DEMONSTRAÇÃO JUNHO 2026.pdf",
+                           "nome":  "RIERA E TUPINAMBA_DEMONSTRAÇÃO JUNHO 2026",
+                           "desc":  "Demonstração do Resultado assinada"
+                       },
+                       {
+                           "mes":  "2026-07",
+                           "path":  "docs/balancetes/2026-07/PGDASD-EXTRATO-07202620023802197.pdf",
+                           "nome":  "PGDASD-EXTRATO-07202620023802197",
+                           "desc":  "Extrato PGDASD / DAS"
+                       },
+                       {
+                           "mes":  "2026-07",
+                           "path":  "docs/balancetes/2026-07/RIERA E TUPINAMBA_DEMONSTRAÇÃO JULHO 2026.pdf",
+                           "nome":  "RIERA E TUPINAMBA_DEMONSTRAÇÃO JULHO 2026",
+                           "desc":  "Demonstração do Resultado assinada"
+                       }
+                   ]
 }

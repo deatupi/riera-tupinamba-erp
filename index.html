@@ -63,6 +63,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <button data-t="fluxo" onclick="go('fluxo',this)">💰 Fluxo de Caixa</button>
 <button data-t="nfs" onclick="go('nfs',this)">🧾 Notas Fiscais <span class="pill" id="pillNF"></span></button>
 <button data-t="comp" onclick="go('comp',this)">📎 Comprovantes <span class="pill" id="pillC"></span></button>
+<button data-t="bal" onclick="go('bal',this)">📑 Balancetes <span class="pill" id="pillB"></span></button>
 <button data-t="conf" onclick="go('conf',this)">⚙️ Tipos & Dados</button>
 </nav>
 <main>
@@ -103,6 +104,15 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="card"><h3 style="margin:0">Comprovantes de Pagamento — <span class="titMes2"></span></h3><div style="overflow:auto"><table><thead><tr><th>Arquivo</th><th>Descrição</th><th>Vinculado a</th><th class="noprint">Ações</th></tr></thead><tbody id="tbComp"></tbody></table></div>
 <div class="hint" id="totComp"></div></div>
 </section>
+<section id="v-bal" style="display:none">
+<div class="card noprint"><div class="row">
+<div><label>Buscar balancete</label><input id="buscaB" placeholder="ex: demonstração, PGDASD..." oninput="renderBal()"></div>
+<div style="flex:1"></div><div><label>&nbsp;</label><button class="btn btn-p" onclick="openBal()">+ Subir Balancete</button></div>
+</div>
+<p class="hint">Espaço do <b>balancete mensal assinado pela contadora</b> (Demonstração do Resultado) + extratos PGDASD. Fica visível por competência.</p></div>
+<div class="card"><h3 style="margin:0">📑 Balancetes e Demonstrativos — <span class="titMes2"></span></h3><div style="overflow:auto"><table><thead><tr><th>Documento</th><th>Descrição</th><th>Origem</th><th class="noprint">Ações</th></tr></thead><tbody id="tbBal"></tbody></table></div>
+<div class="hint" id="totBal"></div></div>
+</section>
 <section id="v-conf" style="display:none">
 <div class="card"><h3>Tipos de Entrada financeira</h3><div id="listTE"></div>
 <div class="row noprint"><div style="flex:1"><input id="newTE" placeholder="Ex: Pix, Transferência..."></div><div><button class="btn btn-p" onclick="addTE()">Adicionar</button></div></div></div>
@@ -139,11 +149,16 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="row"><div style="flex:1"><label>Mês competência</label><select id="cMes"></select></div><div style="flex:1"><label>Valor (R$) — opcional</label><input id="cValor" type="number" step="0.01"></div></div>
 <div><label>Arquivo do comprovante</label><input id="cFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveComp()">Salvar</button><button class="btn btn-g" onclick="closeM('mComp')">Cancelar</button></div></div></div>
+<div class="modal" id="mBal"><div class="box"><h3>Balancete / Demonstrativo da Contadora</h3><input type="hidden" id="bId">
+<div><label>Descrição</label><input id="bDesc" placeholder="Ex: Demonstração do Resultado assinada, PGDASD..."></div>
+<div class="row"><div style="flex:1"><label>Mês competência</label><select id="bMes"></select></div></div>
+<div><label>Arquivo PDF assinado</label><input id="bFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+<div class="toolbar"><button class="btn btn-p" onclick="saveBal()">Salvar</button><button class="btn btn-g" onclick="closeM('mBal')">Cancelar</button></div></div></div>
 <div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
 <script>
 const KEY='biofisio_erp_v2';
 const MES_N={'2026-05':'Maio/2026','2026-06':'Junho/2026','2026-07':'Julho/2026'};
-let DB=null, MES='2026-06', REPO={nfs:[],comprovantes:[]};
+let DB=null, MES='2026-06', REPO={nfs:[],comprovantes:[],balancetes:[]};
 const BRL=v=>(+v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const uid=()=>Math.random().toString(36).slice(2,9);
 const $=id=>document.getElementById(id);
@@ -223,13 +238,13 @@ function seed(){
   L('2026-07','10','saida','DESPESAS ADMINISTRATIVAS','COLETA DE RESÍDUOS ESPECIAIS','Coleta resíduos',96.21),
   L('2026-07','10','saida','DESPESAS ADMINISTRATIVAS','SEGURANÇA','Segurança',220)
  ],
- nfsExtra:[], compExtra:[]
+ nfsExtra:[], compExtra:[], balExtra:[]
  };
 }
 function load(){try{DB=JSON.parse(localStorage.getItem(KEY));}catch(e){DB=null} if(!DB||!DB.lancamentos){DB=seed();save();} DB.lancamentos.forEach(l=>{if(!l.links)l.links=[];});}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){alert('Armazenamento local cheio! O anexo é grande demais. Prefira vincular arquivos da pasta docs/ do repositório.');}}
 async function loadManifest(){try{const r=await fetch('docs/manifest.json');if(r.ok){REPO=await r.json();}}catch(e){} renderDocInfo();}
-function renderDocInfo(){$('docInfo').innerHTML=REPO.nfs.length?`✅ <b>${REPO.nfs.length}</b> NFs e <b>${REPO.comprovantes.length}</b> comprovantes hospedados online (pasta <b>docs/</b>). Clique no 👁 de qualquer lançamento de saída para ver os documentos.`:`⚠️ Manifesto docs/ não carregado (normal ao abrir o arquivo localmente). No GitHub Pages os ${136+61} documentos aparecem automaticamente.`;$('pillNF').textContent=REPO.nfs.filter(n=>n.mes===MES).length||'';$('pillC').textContent=REPO.comprovantes.filter(c=>c.mes===MES).length||'';}
+function renderDocInfo(){$('docInfo').innerHTML=(REPO.nfs.length||REPO.balancetes.length)?`✅ <b>${REPO.nfs.length}</b> NFs, <b>${REPO.comprovantes.length}</b> comprovantes e <b>${REPO.balancetes.length}</b> balancete(s) hospedados online (pasta <b>docs/</b>). Clique no 👁 de qualquer lançamento de saída para ver os documentos.`:`⚠️ Manifesto docs/ não carregado (normal ao abrir o arquivo localmente). No GitHub Pages os documentos aparecem automaticamente.`;$('pillNF').textContent=REPO.nfs.filter(n=>n.mes===MES).length||'';$('pillC').textContent=REPO.comprovantes.filter(c=>c.mes===MES).length||'';$('pillB').textContent=(REPO.balancetes.filter(b=>b.mes===MES).length+(DB.balExtra||[]).filter(b=>b.mes===MES).length)||'';}
 
 // mapeamento nome-arquivo -> palavras da saída
 const KW=[['aguas',['AGUAS','AGUA DO RIO']],['aluguel',['ALUGUEL']],['chayene',['CHAYENE']],['simone',['SIMONE']],['claro',['MOVEL','MÓVEL','CLARO']],['net',['INTERNET','FIXO','NET']],['contabilidade',['CONTABILIDADE']],['das',['DAS']],['fgts',['FGTS']],['inss',['INSS']],['irrf',['IRRF']],['jae',['VALE TRANSPORTE','JA','JÁ É']],['kioto',['PISCINA','KIOTO']],['light',['LIGHT','LUZ']],['naturgy',['NATURGY','GAS','GÁS']],['paulo',['PAULO','FISIOTERAPEUTA']],['personal',['PERSONAL','PROFISSIONAIS']],['rjr',['RESIDUOS','RESÍDUOS','COLETA','RJR']],['seguranca',['SEGURANÇA','SEGURANCA']],['seguro',['SEGURO']]];
@@ -242,7 +257,7 @@ function linkedDocs(l){const docs=[];if(l.anexoDataUrl)docs.push({nome:l.anexoNo
 
 function mesesDisponiveis(){const s=new Set([...Object.keys(MES_N),...DB.lancamentos.map(l=>l.mes),...Object.keys(DB.saldos)]);return [...s].sort();}
 function setMes(v){MES=v;render();}
-function go(t,btn){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');['dash','fluxo','nfs','comp','conf'].forEach(k=>$('v-'+k).style.display=k===t?'block':'none');render();}
+function go(t,btn){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');['dash','fluxo','nfs','comp','bal','conf'].forEach(k=>$('v-'+k).style.display=k===t?'block':'none');render();}
 function closeM(id){$(id).classList.remove('open');}
 function viewDocs(titulo,docs){if(!docs.length)return alert('Sem documentos vinculados.');$('vTit').textContent=titulo;const tabs=$('vTabs');tabs.innerHTML=docs.map((d,i)=>`<button class="${i===0?'on':''}" onclick="showDoc(${i})">${(d.nome||'doc').slice(0,28)}</button>`).join('');window._docs=docs;showDoc(0);$('mView').classList.add('open');}
 function showDoc(i){const d=window._docs[i];document.querySelectorAll('#vTabs button').forEach((b,j)=>b.classList.toggle('on',j===i));const b=$('vBody');const isImg=(d.tipo||'').includes('image')||/\.(jpg|jpeg|png)$/i.test(d.url||'');b.innerHTML=isImg?`<img src="${d.url}" style="max-width:100%;border-radius:8px">`:`<iframe src="${d.url}" style="width:100%;height:60vh;border:0"></iframe>`;$('vDown').href=d.url;}
@@ -274,7 +289,7 @@ function render(){
  $('tbLanc').innerHTML=tb.map(l=>{const docs=linkedDocs(l);const sug=l.tipo==='saida'?allComps(l.mes).filter(c=>autoMatch(l,c)&&!(l.links||[]).includes(c.path||'')).length:0;
  const docCell=docs.length?`<span class="filelink" onclick='viewLanc("${l.id}")'>👁 Ver (${docs.length})</span>${sug?` <span class="pill warn">+${sug} sugerido(s)</span>`:''}`:(sug?`<span class="filelink" onclick='viewLanc("${l.id}")'>+ vincular (${sug})</span>`:'<span class="hint">—</span>');
  return `<tr><td>${(l.data||'').split('-').reverse().join('/')}</td><td><span class="badge ${l.tipo==='entrada'?'b-entrada':'b-saida'}">${l.tipo.toUpperCase()}</span><div class="hint">${l.forma||''}</div></td><td><b>${l.categoria}</b><div class="hint">${l.subitem||''}</div></td><td>${l.descricao||''}</td><td class="num">${BRL(+l.valor)}</td><td>${docCell}</td><td class="noprint"><button class="btn btn-g" onclick="editLanc('${l.id}')">✏</button> <button class="btn btn-d" onclick="delLanc('${l.id}')">🗑</button></td></tr>`;}).join('')||'<tr><td colspan=7 class="hint">Nenhum lançamento.</td></tr>';
- renderNF();renderComp();renderConf();
+ renderNF();renderComp();renderBal();renderConf();
 }
 function viewLanc(id){const l=DB.lancamentos.find(x=>x.id===id);let docs=linkedDocs(l);if(!docs.length&&l.tipo==='saida'){const sug=allComps(l.mes).filter(c=>autoMatch(l,c)).map(c=>({nome:compDesc(c)+' (sugerido)',tipo:'application/pdf',url:compUrl(c)}));if(!sug.length)return alert('Nenhum comprovante encontrado para esta saída. Vincule pelo ✏ ou suba na aba Comprovantes.');return viewDocs('Sugestões — '+l.subitem,sug);}viewDocs((l.subitem||l.descricao||'Lançamento')+` — ${BRL(l.valor)}`,docs);}
 function saveSaldo(){DB.saldos[MES]=parseFloat($('saldoAnt').value||0);save();render();}
@@ -320,6 +335,19 @@ function renderComp(){const q=($('buscaC').value||'').toLowerCase();
  ||'<tr><td colspan=4 class="hint">Nenhum comprovante neste mês.</td></tr>';
  $('totComp').textContent=`${repo.length} online + ${extra.length} avulso(s)`;}
 function delComp(id){if(!confirm('Excluir comprovante?'))return;DB.compExtra=DB.compExtra.filter(x=>x.id!==id);save();render();}
+
+// --- BALANCETES ---
+function openBal(){const ms=mesesDisponiveis();$('bMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('bId').value='';$('bDesc').value='';$('bFile').value='';$('mBal').classList.add('open');}
+function saveBal(){const obj={id:uid(),mes:$('bMes').value,descricao:$('bDesc').value.trim()};
+ if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('bFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.balExtra.push(obj);save();closeM('mBal');render();});}
+function renderBal(){const q=($('buscaB').value||'').toLowerCase();
+ const repo=(REPO.balancetes||[]).filter(b=>b.mes===MES&&(b.nome+' '+(b.desc||'')).toLowerCase().includes(q));
+ const extra=(DB.balExtra||[]).filter(b=>b.mes===MES&&(b.descricao||'').toLowerCase().includes(q));
+ $('tbBal').innerHTML=repo.map(b=>`<tr><td><span class="filelink" onclick="viewDocs('${b.nome.replace(/'/g,'')}',[{nome:'${b.nome.replace(/'/g,'')}',tipo:'application/pdf',url:'${enc(b.path)}'}])">👁 ${b.nome}</span></td><td class="hint">${b.desc||''}</td><td><span class="pill">online</span></td><td class="noprint hint">repo</td></tr>`).join('')
+ +extra.map(b=>`<tr><td><span class="filelink" onclick='viewDocs("${b.descricao.replace(/"/g,'')}",[{nome:"${b.arquivoNome}",tipo:"${b.arquivoTipo}",url:DB.balExtra.find(x=>x.id==="${b.id}").arquivoDataUrl}])'>👁 ${b.arquivoNome||b.descricao}</span></td><td>${b.descricao}</td><td><span class="pill warn">local</span></td><td class="noprint"><button class="btn btn-d" onclick="delBal('${b.id}')">🗑</button></td></tr>`).join('')
+ ||'<tr><td colspan=4 class="hint">Nenhum balancete neste mês. Clique em + Subir Balancete.</td></tr>';
+ $('totBal').textContent=`${repo.length} online + ${extra.length} avulso(s) em ${MES_N[MES]||MES}`;}
+function delBal(id){if(!confirm('Excluir balancete?'))return;DB.balExtra=DB.balExtra.filter(x=>x.id!==id);save();render();}
 
 function renderConf(){$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
  $('listCat').innerHTML=Object.entries(DB.categorias).map(([c,subs])=>`<div style="padding:8px 0;border-bottom:1px solid #f1f5f9"><b>${c}</b> <button class="btn btn-d noprint" style="padding:2px 8px" onclick="delCat('${c}')">✕</button><div class="hint">${subs.join(' • ')||'sem subitens'}</div></div>`).join('');}

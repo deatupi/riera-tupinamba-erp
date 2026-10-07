@@ -14,12 +14,14 @@ Ative o Pages (abaixo) e acesse: `https://deatupi.github.io/riera-tupinamba-erp/
 | 💰 Fluxo de Caixa | Lançamentos + relatório no formato do PDF + **👁 view de docs na saída** |
 | 🧾 Notas Fiscais | 136 NFs (mai–jul/2026) hospedadas + upload de novas |
 | 📎 Comprovantes | 61 comprovantes hospedados + upload; vínculo com a saída |
+| 📑 Balancetes | Demonstrações assinadas pela contadora + PGDASD, por mês |
 | ⚙️ Tipos & Dados | Tipos de entrada, categorias, backup/restore JSON |
 
 ## 📁 Documentos
 
 - `docs/nfs/2026-05|06|07/` — PDFs das NFs emitidas
 - `docs/comprovantes/2026-05|06|07/` — comprovantes de pagamento
+- `docs/balancetes/2026-05|06|07/` — demonstrações assinadas + PGDASD
 - `docs/manifest.json` — índice lido pelo app (gerado automaticamente)
 
 Para adicionar novos PDFs: suba o arquivo para a pasta do mês e regenere o `manifest.json`
