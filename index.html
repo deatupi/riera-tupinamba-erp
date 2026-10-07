@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIOFISIO • Mini ERP Financeiro</title>
+<style>
+:root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--pri:#0d9488;--pri2:#0f766e;--red:#dc2626;--green:#059669;--line:#e2e8f0}
+*{box-sizing:border-box;font-family:'Segoe UI',system-ui,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink)}
+header{background:#0f172a;color:#fff;padding:14px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+header h1{font-size:18px;margin:0}header small{color:#94a3b8;display:block;font-weight:400}
+nav{display:flex;gap:6px;background:#0f172a;padding:0 20px 12px;flex-wrap:wrap}
+nav button{border:0;padding:9px 14px;border-radius:8px;background:#1e293b;color:#cbd5e1;cursor:pointer;font-size:14px}
+nav button.active{background:var(--pri);color:#fff;font-weight:600}
+main{padding:20px;max-width:1200px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{padding:14px;border-radius:10px;border:1px solid var(--line)}
+.kpi span{font-size:12px;color:var(--mut);text-transform:uppercase;font-weight:700}
+.kpi b{font-size:22px;display:block;margin-top:4px}
+.kpi.ent b{color:var(--green)}.kpi.sai b{color:var(--red)}.kpi.saldo-neg b{color:var(--red)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+label{font-size:12px;font-weight:700;color:var(--mut);display:block;margin-bottom:4px}
+input,select,textarea{padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;width:100%}
+.btn{padding:10px 16px;border-radius:8px;border:0;cursor:pointer;font-weight:700;font-size:14px}
+.btn-p{background:var(--pri);color:#fff}.btn-p:hover{background:var(--pri2)}
+.btn-g{background:#e2e8f0}.btn-d{background:#fee2e2;color:#991b1b}.btn-s{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{background:#f8fafc;font-size:12px;text-transform:uppercase;color:var(--mut)}
+td.num,th.num{text-align:right;white-space:nowrap}
+.badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700}
+.b-entrada{background:#dcfce7;color:#166534}.b-saida{background:#fee2e2;color:#991b1b}
+.tag{background:#f1f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.open{display:flex}
+.box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:20px}
+.box.wide{max-width:940px}
+.filelink{color:var(--pri2);font-weight:700;cursor:pointer;text-decoration:underline}
+.hint{font-size:13px;color:var(--mut)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.group-title{background:#f8fafc;font-weight:800;padding:8px;border-radius:6px;margin-top:12px}
+.doctabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.doctabs button{border:1px solid var(--line);background:#f8fafc;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:13px}
+.doctabs button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.linklist{max-height:180px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:8px}
+.linklist label{display:flex;gap:8px;align-items:center;font-weight:400;color:var(--ink);font-size:14px;padding:4px 0;border-bottom:1px solid #f8fafc}
+.linklist input{width:auto}
+.pill{font-size:11px;background:#ecfdf5;color:#065f46;border-radius:99px;padding:1px 8px;font-weight:700}
+.pill.warn{background:#fef3c7;color:#92400e}
+@media print{header,nav,.noprint{display:none!important}main{max-width:100%}}
+</style>
+</head>
+<body>
+<header>
+<div><h1>🏊 BIOFISIO — Mini ERP <small>RIERA E TUPINAMBA DINÂMICA DO CORPO LTDA • Fluxo de Caixa + NFs + Comprovantes</small></h1></div>
+<div class="noprint"><label style="color:#94a3b8">Competência</label>
+<select id="mesSel" onchange="setMes(this.value)" style="min-width:160px"></select></div>
+</header>
+<nav class="noprint">
+<button data-t="dash" class="active" onclick="go('dash',this)">📊 Dashboard</button>
+<button data-t="fluxo" onclick="go('fluxo',this)">💰 Fluxo de Caixa</button>
+<button data-t="nfs" onclick="go('nfs',this)">🧾 Notas Fiscais <span class="pill" id="pillNF"></span></button>
+<button data-t="comp" onclick="go('comp',this)">📎 Comprovantes <span class="pill" id="pillC"></span></button>
+<button data-t="conf" onclick="go('conf',this)">⚙️ Tipos & Dados</button>
+</nav>
+<main>
+<section id="v-dash">
+<div class="grid4" id="kpis"></div>
+<div class="card"><h3 style="margin:0 0 8px">Resumo por competência</h3><div id="resMes"></div></div>
+<div class="card"><h3 style="margin:0 0 8px">Documentos no repositório online</h3><div id="docInfo" class="hint">Carregando manifesto…</div></div>
+</section>
+<section id="v-fluxo" style="display:none">
+<div class="card noprint"><div class="row">
+<div style="min-width:140px"><label>Saldo anterior (R$)</label><input id="saldoAnt" type="number" step="0.01"></div>
+<div><label>&nbsp;</label><button class="btn btn-p" onclick="saveSaldo()">Salvar saldo</button></div>
+<div style="flex:1"></div>
+<div><label>Buscar</label><input id="busca" placeholder="descrição, categoria..." oninput="render()"></div>
+<div><label>&nbsp;</label><button class="btn btn-p" onclick="openLanc()">+ Novo lançamento</button></div>
+</div>
+<div class="toolbar">
+<button class="btn btn-g" onclick="exportCSV()">⬇ Exportar CSV</button>
+<button class="btn btn-g" onclick="window.print()">🖨 Imprimir relatório</button>
+<span class="hint">Coluna <b>Docs</b>: 👁 abre o visualizador com anexo + comprovantes vinculados da saída.</span>
+</div></div>
+<div class="card"><h3 style="margin:0">Relatório — <span id="titMes"></span></h3><div id="relFluxo"></div></div>
+<div class="card"><h3 style="margin:0 0 6px">Lançamentos detalhados</h3><div style="overflow:auto"><table><thead><tr><th>Data</th><th>Tipo</th><th>Categoria / Subitem</th><th>Descrição</th><th class="num">Valor</th><th>Docs</th><th class="noprint">Ações</th></tr></thead><tbody id="tbLanc"></tbody></table></div></div>
+</section>
+<section id="v-nfs" style="display:none">
+<div class="card noprint"><div class="row">
+<div><label>Buscar NF / cliente</label><input id="buscaNF" placeholder="ex: 185, Ana Lucia..." oninput="renderNF()"></div>
+<div style="flex:1"></div><div><label>&nbsp;</label><button class="btn btn-p" onclick="openNF()">+ Subir Nota Fiscal</button></div>
+</div></div>
+<div class="card"><h3 style="margin:0">Notas Fiscais Emitidas — <span class="titMes2"></span></h3><div style="overflow:auto"><table><thead><tr><th>Nº</th><th>Cliente</th><th>Data</th><th class="num">Valor</th><th>Arquivo</th><th class="noprint">Ações</th></tr></thead><tbody id="tbNF"></tbody></table></div>
+<div class="hint" id="totNF"></div></div>
+</section>
+<section id="v-comp" style="display:none">
+<div class="card noprint"><div class="row">
+<div><label>Buscar comprovante</label><input id="buscaC" placeholder="fornecedor, descrição..." oninput="renderComp()"></div>
+<div style="flex:1"></div><div><label>&nbsp;</label><button class="btn btn-p" onclick="openComp()">+ Subir Comprovante</button></div>
+</div></div>
+<div class="card"><h3 style="margin:0">Comprovantes de Pagamento — <span class="titMes2"></span></h3><div style="overflow:auto"><table><thead><tr><th>Arquivo</th><th>Descrição</th><th>Vinculado a</th><th class="noprint">Ações</th></tr></thead><tbody id="tbComp"></tbody></table></div>
+<div class="hint" id="totComp"></div></div>
+</section>
+<section id="v-conf" style="display:none">
+<div class="card"><h3>Tipos de Entrada financeira</h3><div id="listTE"></div>
+<div class="row noprint"><div style="flex:1"><input id="newTE" placeholder="Ex: Pix, Transferência..."></div><div><button class="btn btn-p" onclick="addTE()">Adicionar</button></div></div></div>
+<div class="card"><h3>Categorias de Saída</h3><div id="listCat"></div>
+<div class="row noprint"><div style="flex:1"><input id="newCat" placeholder="Nova categoria. Ex: PESSOAL"></div><div><button class="btn btn-p" onclick="addCat()">Adicionar categoria</button></div></div></div>
+<div class="card noprint"><h3>Dados</h3><div class="toolbar">
+<button class="btn btn-s" onclick="backup()">💾 Backup (JSON)</button>
+<button class="btn btn-g" onclick="document.getElementById('restFile').click()">♻ Restaurar backup</button><input type="file" id="restFile" accept=".json" style="display:none" onchange="restore(this)">
+<button class="btn btn-d" onclick="zerar()">🗑 Apagar lançamentos locais</button></div>
+<p class="hint">Arquivos em <b>docs/</b> fazem parte do repositório online (permanentes). Anexos subidos pelo navegador ficam salvos localmente (por navegador). Faça backup mensal.</p></div>
+</section>
+</main>
+<div class="modal" id="mLanc"><div class="box">
+<h3 id="mLancT">Novo lançamento</h3>
+<input type="hidden" id="fId">
+<div class="row"><div style="flex:1"><label>Data</label><input id="fData" type="date"></div>
+<div style="flex:1"><label>Tipo</label><select id="fTipo" onchange="updCat()"><option value="entrada">ENTRADA</option><option value="saida">SAÍDA</option></select></div></div>
+<div class="row"><div style="flex:1"><label>Categoria / Tipo entrada</label><select id="fCat"></select></div>
+<div style="flex:1"><label>Subitem</label><input id="fSub" list="dlSub" placeholder="Ex: ALUGUEL, DAS, Dinheiro..."><datalist id="dlSub"></datalist></div></div>
+<div><label>Descrição</label><input id="fDesc" placeholder="Ex: Recebimento mensalidade / Pagamento Light"></div>
+<div class="row"><div style="flex:1"><label>Valor (R$)</label><input id="fValor" type="number" step="0.01" min="0"></div>
+<div style="flex:1"><label>Forma (entradas)</label><select id="fForma"></select></div></div>
+<div><label>Anexo direto (opcional)</label><input id="fFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
+<div id="linkBox" style="margin-top:8px"><label>Vincular comprovantes do mês (saídas) — abre junto no 👁</label><div class="linklist" id="linkList"></div></div>
+<div class="toolbar"><button class="btn btn-p" onclick="saveLanc()">Salvar</button><button class="btn btn-g" onclick="closeM('mLanc')">Cancelar</button></div>
+</div></div>
+<div class="modal" id="mNF"><div class="box"><h3>Nota Fiscal Emitida</h3><input type="hidden" id="nId">
+<div class="row"><div><label>Número</label><input id="nNum" type="number"></div><div style="flex:1"><label>Cliente</label><input id="nCli"></div></div>
+<div class="row"><div style="flex:1"><label>Data emissão</label><input id="nData" type="date"></div><div style="flex:1"><label>Valor (R$)</label><input id="nValor" type="number" step="0.01"></div></div>
+<div><label>Arquivo PDF da NF</label><input id="nFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
+<div class="toolbar"><button class="btn btn-p" onclick="saveNF()">Salvar NF</button><button class="btn btn-g" onclick="closeM('mNF')">Cancelar</button></div></div></div>
+<div class="modal" id="mComp"><div class="box"><h3>Comprovante de Pagamento</h3><input type="hidden" id="cId">
+<div><label>Fornecedor / Descrição</label><input id="cDesc" placeholder="Ex: Light, Aluguel, DAS..."></div>
+<div class="row"><div style="flex:1"><label>Mês competência</label><select id="cMes"></select></div><div style="flex:1"><label>Valor (R$) — opcional</label><input id="cValor" type="number" step="0.01"></div></div>
+<div><label>Arquivo do comprovante</label><input id="cFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+<div class="toolbar"><button class="btn btn-p" onclick="saveComp()">Salvar</button><button class="btn btn-g" onclick="closeM('mComp')">Cancelar</button></div></div></div>
+<div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
+<script>
+const KEY='biofisio_erp_v2';
+const MES_N={'2026-05':'Maio/2026','2026-06':'Junho/2026','2026-07':'Julho/2026'};
+let DB=null, MES='2026-06', REPO={nfs:[],comprovantes:[]};
+const BRL=v=>(+v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const uid=()=>Math.random().toString(36).slice(2,9);
+const $=id=>document.getElementById(id);
+const enc=s=>encodeURI(s||'');
+
+function seed(){
+ const L=(mes,dia,tipo,cat,sub,desc,valor,forma)=>({id:uid(),mes,data:mes+'-'+dia,tipo,categoria:cat,subitem:sub,descricao:desc,valor,forma:forma||'',links:[],anexoNome:'',anexoTipo:'',anexoDataUrl:''});
+ return {
+ saldos:{'2026-05':4043.10,'2026-06':5709.88,'2026-07':3817.67},
+ tiposEntrada:['Dinheiro','Cheque','Crédito Conta'],
+ categorias:{'TRIBUTOS':['DAS - SIMPLES NACIONAL','INSS','IRRF S/ALUGUEL','FGTS'],'TELEFONIA':['INTERNET/TELEFONE FIXO','TELEFONIA MÓVEL'],'DESPESAS DE MANUTENÇÃO':['PRODUTOS PARA PISCINA','PRODUTOS DE LIMPEZA'],'IMÓVEL':['AGUAS DO RIO','NATURGY','ALUGUEL','LIGHT','SEGURO IMÓVEL E EQUIPAMENTOS'],'DESPESAS PROFISSIONAIS':['PAULO MARCIO RIERA MACHADO - FISIOTERAPEUTA','SIMONE FLORENCIO - AUX LIMPEZA','CHAYENE FLORENCIO - AUX LIMPEZA','VALE TRANSPORTE - JÁ É'],'DESPESAS ADMINISTRATIVAS':['CONTABILIDADE','COLETA DE RESÍDUOS ESPECIAIS','SEGURANÇA']},
+ lancamentos:[
+  L('2026-05','10','entrada','ENTRADAS','Dinheiro','Recebimentos em dinheiro',24537.50,'Dinheiro'),
+  L('2026-05','10','entrada','ENTRADAS','Cheque','Recebimentos em cheque',1400,'Cheque'),
+  L('2026-05','10','entrada','ENTRADAS','Crédito Conta','Créditos em conta',3897.50,'Crédito Conta'),
+  L('2026-05','20','saida','TRIBUTOS','DAS - SIMPLES NACIONAL','DAS',1873),
+  L('2026-05','20','saida','TRIBUTOS','INSS','INSS',793.14),
+  L('2026-05','20','saida','TRIBUTOS','IRRF S/ALUGUEL','IRRF s/aluguel',1822.91),
+  L('2026-05','20','saida','TRIBUTOS','FGTS','FGTS',363.47),
+  L('2026-05','15','saida','TELEFONIA','INTERNET/TELEFONE FIXO','Internet/telefone fixo',179.98),
+  L('2026-05','15','saida','TELEFONIA','TELEFONIA MÓVEL','Telefonia móvel',265.79),
+  L('2026-05','12','saida','DESPESAS DE MANUTENÇÃO','PRODUTOS DE LIMPEZA','Produtos limpeza',244.65),
+  L('2026-05','08','saida','IMÓVEL','AGUAS DO RIO','Águas do Rio',1778.31),
+  L('2026-05','08','saida','IMÓVEL','NATURGY','Naturgy',312.35),
+  L('2026-05','05','saida','IMÓVEL','ALUGUEL','Aluguel',8717.53),
+  L('2026-05','08','saida','IMÓVEL','LIGHT','Light',3226.19),
+  L('2026-05','08','saida','IMÓVEL','SEGURO IMÓVEL E EQUIPAMENTOS','Seguro',63.80),
+  L('2026-05','30','saida','DESPESAS PROFISSIONAIS','PAULO MARCIO RIERA MACHADO - FISIOTERAPEUTA','Fisioterapeuta',4450),
+  L('2026-05','30','saida','DESPESAS PROFISSIONAIS','SIMONE FLORENCIO - AUX LIMPEZA','Aux limpeza',1402.17),
+  L('2026-05','30','saida','DESPESAS PROFISSIONAIS','CHAYENE FLORENCIO - AUX LIMPEZA','Aux limpeza',1298.06),
+  L('2026-05','30','saida','DESPESAS PROFISSIONAIS','VALE TRANSPORTE - JÁ É','Vale transporte',470),
+  L('2026-05','10','saida','DESPESAS ADMINISTRATIVAS','CONTABILIDADE','Contabilidade',600),
+  L('2026-05','10','saida','DESPESAS ADMINISTRATIVAS','COLETA DE RESÍDUOS ESPECIAIS','Coleta resíduos',91.87),
+  L('2026-05','10','saida','DESPESAS ADMINISTRATIVAS','SEGURANÇA','Segurança',215),
+  L('2026-06','10','entrada','ENTRADAS','Dinheiro','Recebimentos em dinheiro',21206.44,'Dinheiro'),
+  L('2026-06','10','entrada','ENTRADAS','Crédito Conta','Créditos em conta',5324,'Crédito Conta'),
+  L('2026-06','20','saida','TRIBUTOS','DAS - SIMPLES NACIONAL','DAS',2305.82),
+  L('2026-06','20','saida','TRIBUTOS','INSS','INSS',793.14),
+  L('2026-06','20','saida','TRIBUTOS','IRRF S/ALUGUEL','IRRF s/aluguel',1822.91),
+  L('2026-06','20','saida','TRIBUTOS','FGTS','FGTS',363.47),
+  L('2026-06','15','saida','TELEFONIA','INTERNET/TELEFONE FIXO','Internet/telefone fixo',265.79),
+  L('2026-06','15','saida','TELEFONIA','TELEFONIA MÓVEL','Telefonia móvel',179.98),
+  L('2026-06','12','saida','DESPESAS DE MANUTENÇÃO','PRODUTOS PARA PISCINA','Produtos piscina',585),
+  L('2026-06','12','saida','DESPESAS DE MANUTENÇÃO','PRODUTOS DE LIMPEZA','Produtos limpeza',494.50),
+  L('2026-06','08','saida','IMÓVEL','AGUAS DO RIO','Águas do Rio',1410.74),
+  L('2026-06','08','saida','IMÓVEL','NATURGY','Naturgy',312.35),
+  L('2026-06','05','saida','IMÓVEL','ALUGUEL','Aluguel',8717.53),
+  L('2026-06','08','saida','IMÓVEL','LIGHT','Light',2576.18),
+  L('2026-06','08','saida','IMÓVEL','SEGURO IMÓVEL E EQUIPAMENTOS','Seguro',63.80),
+  L('2026-06','30','saida','DESPESAS PROFISSIONAIS','PAULO MARCIO RIERA MACHADO - FISIOTERAPEUTA','Fisioterapeuta',4450),
+  L('2026-06','30','saida','DESPESAS PROFISSIONAIS','SIMONE FLORENCIO - AUX LIMPEZA','Aux limpeza',1402.17),
+  L('2026-06','30','saida','DESPESAS PROFISSIONAIS','CHAYENE FLORENCIO - AUX LIMPEZA','Aux limpeza',1298.06),
+  L('2026-06','30','saida','DESPESAS PROFISSIONAIS','VALE TRANSPORTE - JÁ É','Vale transporte',470),
+  L('2026-06','10','saida','DESPESAS ADMINISTRATIVAS','CONTABILIDADE','Contabilidade',600),
+  L('2026-06','10','saida','DESPESAS ADMINISTRATIVAS','COLETA DE RESÍDUOS ESPECIAIS','Coleta resíduos',96.21),
+  L('2026-06','10','saida','DESPESAS ADMINISTRATIVAS','SEGURANÇA','Segurança',215),
+  L('2026-07','10','entrada','ENTRADAS','Dinheiro','Recebimentos em dinheiro',18919.50,'Dinheiro'),
+  L('2026-07','10','entrada','ENTRADAS','Crédito Conta','Créditos em conta',4610,'Crédito Conta'),
+  L('2026-07','20','saida','TRIBUTOS','DAS - SIMPLES NACIONAL','DAS',1664.33),
+  L('2026-07','20','saida','TRIBUTOS','INSS','INSS',793.14),
+  L('2026-07','20','saida','TRIBUTOS','IRRF S/ALUGUEL','IRRF s/aluguel',1822.91),
+  L('2026-07','20','saida','TRIBUTOS','FGTS','FGTS',363.47),
+  L('2026-07','15','saida','TELEFONIA','INTERNET/TELEFONE FIXO','Internet/telefone fixo',289.99),
+  L('2026-07','15','saida','TELEFONIA','TELEFONIA MÓVEL','Telefonia móvel',179.98),
+  L('2026-07','12','saida','DESPESAS DE MANUTENÇÃO','PRODUTOS PARA PISCINA','Produtos piscina',275),
+  L('2026-07','12','saida','DESPESAS DE MANUTENÇÃO','PRODUTOS DE LIMPEZA','Produtos limpeza',348.15),
+  L('2026-07','08','saida','IMÓVEL','AGUAS DO RIO','Águas do Rio',1502.64),
+  L('2026-07','08','saida','IMÓVEL','NATURGY','Naturgy',312.35),
+  L('2026-07','05','saida','IMÓVEL','ALUGUEL','Aluguel',8717.53),
+  L('2026-07','08','saida','IMÓVEL','LIGHT','Light',3865.28),
+  L('2026-07','08','saida','IMÓVEL','SEGURO IMÓVEL E EQUIPAMENTOS','Seguro',63.80),
+  L('2026-07','30','saida','DESPESAS PROFISSIONAIS','PAULO MARCIO RIERA MACHADO - FISIOTERAPEUTA','Fisioterapeuta',4450),
+  L('2026-07','30','saida','DESPESAS PROFISSIONAIS','SIMONE FLORENCIO - AUX LIMPEZA','Aux limpeza',1402.17),
+  L('2026-07','30','saida','DESPESAS PROFISSIONAIS','CHAYENE FLORENCIO - AUX LIMPEZA','Aux limpeza',1298.06),
+  L('2026-07','30','saida','DESPESAS PROFISSIONAIS','VALE TRANSPORTE - JÁ É','Vale transporte',470),
+  L('2026-07','10','saida','DESPESAS ADMINISTRATIVAS','CONTABILIDADE','Contabilidade',600),
+  L('2026-07','10','saida','DESPESAS ADMINISTRATIVAS','COLETA DE RESÍDUOS ESPECIAIS','Coleta resíduos',96.21),
+  L('2026-07','10','saida','DESPESAS ADMINISTRATIVAS','SEGURANÇA','Segurança',220)
+ ],
+ nfsExtra:[], compExtra:[]
+ };
+}
+function load(){try{DB=JSON.parse(localStorage.getItem(KEY));}catch(e){DB=null} if(!DB||!DB.lancamentos){DB=seed();save();} DB.lancamentos.forEach(l=>{if(!l.links)l.links=[];});}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){alert('Armazenamento local cheio! O anexo é grande demais. Prefira vincular arquivos da pasta docs/ do repositório.');}}
+async function loadManifest(){try{const r=await fetch('docs/manifest.json');if(r.ok){REPO=await r.json();}}catch(e){} renderDocInfo();}
+function renderDocInfo(){$('docInfo').innerHTML=REPO.nfs.length?`✅ <b>${REPO.nfs.length}</b> NFs e <b>${REPO.comprovantes.length}</b> comprovantes hospedados online (pasta <b>docs/</b>). Clique no 👁 de qualquer lançamento de saída para ver os documentos.`:`⚠️ Manifesto docs/ não carregado (normal ao abrir o arquivo localmente). No GitHub Pages os ${136+61} documentos aparecem automaticamente.`;$('pillNF').textContent=REPO.nfs.filter(n=>n.mes===MES).length||'';$('pillC').textContent=REPO.comprovantes.filter(c=>c.mes===MES).length||'';}
+
+// mapeamento nome-arquivo -> palavras da saída
+const KW=[['aguas',['AGUAS','AGUA DO RIO']],['aluguel',['ALUGUEL']],['chayene',['CHAYENE']],['simone',['SIMONE']],['claro',['MOVEL','MÓVEL','CLARO']],['net',['INTERNET','FIXO','NET']],['contabilidade',['CONTABILIDADE']],['das',['DAS']],['fgts',['FGTS']],['inss',['INSS']],['irrf',['IRRF']],['jae',['VALE TRANSPORTE','JA','JÁ É']],['kioto',['PISCINA','KIOTO']],['light',['LIGHT','LUZ']],['naturgy',['NATURGY','GAS','GÁS']],['paulo',['PAULO','FISIOTERAPEUTA']],['personal',['PERSONAL','PROFISSIONAIS']],['rjr',['RESIDUOS','RESÍDUOS','COLETA','RJR']],['seguranca',['SEGURANÇA','SEGURANCA']],['seguro',['SEGURO']]];
+function norm(s){return (s||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function autoMatch(lanc,comp){const hay=norm((lanc.categoria||'')+' '+(lanc.subitem||'')+' '+(lanc.descricao||''));const base=norm(comp.nome||comp.descricao||'').replace(/[_-](MAIO|JUNHO|JULHO|JUN|JUL|\d+)$/,'');for(const [k,words] of KW){if(base.includes(norm(k))&&words.some(w=>hay.includes(norm(w))))return true;}return false;}
+function compDesc(c){return c.nome||c.descricao||c.arquivo||'';}
+function compUrl(c){return c.url||enc(c.path);}
+function allComps(mes){return [...REPO.comprovantes.filter(c=>c.mes===mes).map(c=>({...c,orig:'repo'})),...(DB.compExtra||[]).filter(c=>c.mes===mes).map(c=>({...c,orig:'local',url:c.arquivoDataUrl}))];}
+function linkedDocs(l){const docs=[];if(l.anexoDataUrl)docs.push({nome:l.anexoNome||'Anexo',tipo:l.anexoTipo,url:l.anexoDataUrl});(l.links||[]).forEach(p=>{const c=allComps(l.mes).find(x=>(x.path||'')===p);if(c)docs.push({nome:compDesc(c)+(c.valor?' — '+BRL(c.valor):''),tipo:'application/pdf',url:compUrl(c)});});return docs;}
+
+function mesesDisponiveis(){const s=new Set([...Object.keys(MES_N),...DB.lancamentos.map(l=>l.mes),...Object.keys(DB.saldos)]);return [...s].sort();}
+function setMes(v){MES=v;render();}
+function go(t,btn){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');['dash','fluxo','nfs','comp','conf'].forEach(k=>$('v-'+k).style.display=k===t?'block':'none');render();}
+function closeM(id){$(id).classList.remove('open');}
+function viewDocs(titulo,docs){if(!docs.length)return alert('Sem documentos vinculados.');$('vTit').textContent=titulo;const tabs=$('vTabs');tabs.innerHTML=docs.map((d,i)=>`<button class="${i===0?'on':''}" onclick="showDoc(${i})">${(d.nome||'doc').slice(0,28)}</button>`).join('');window._docs=docs;showDoc(0);$('mView').classList.add('open');}
+function showDoc(i){const d=window._docs[i];document.querySelectorAll('#vTabs button').forEach((b,j)=>b.classList.toggle('on',j===i));const b=$('vBody');const isImg=(d.tipo||'').includes('image')||/\.(jpg|jpeg|png)$/i.test(d.url||'');b.innerHTML=isImg?`<img src="${d.url}" style="max-width:100%;border-radius:8px">`:`<iframe src="${d.url}" style="width:100%;height:60vh;border:0"></iframe>`;$('vDown').href=d.url;}
+function fileToDataUrl(inp,cb){const f=inp.files[0];if(!f)return cb(null);if(f.size>2.5*1024*1024){if(!confirm('Arquivo com '+(f.size/1048576).toFixed(1)+'MB. Pode lotar o armazenamento local. Continuar?'))return cb(null);}const r=new FileReader();r.onload=()=>cb({nome:f.name,tipo:f.type,url:r.result});r.readAsDataURL(f);}
+
+function totais(mes){const ls=DB.lancamentos.filter(l=>l.mes===mes);const e=ls.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+ +l.valor,0);const s=ls.filter(l=>l.tipo==='saida').reduce((s,l)=>s+ +l.valor,0);const ant=+(DB.saldos[mes]||0);return{ent:e,sai:s,ant,fin:ant+e-s};}
+function render(){
+ const ms=mesesDisponiveis();$('mesSel').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');
+ if(!ms.includes(MES))MES=ms[ms.length-1];
+ document.querySelectorAll('.titMes2').forEach(e=>e.textContent=MES_N[MES]||MES);
+ $('titMes').textContent=MES_N[MES]||MES;
+ $('saldoAnt').value=DB.saldos[MES]||0;
+ renderDocInfo();
+ const t=totais(MES);
+ $('kpis').innerHTML=`<div class="kpi"><span>Saldo anterior</span><b>${BRL(t.ant)}</b></div><div class="kpi ent"><span>Entradas</span><b>${BRL(t.ent)}</b></div><div class="kpi sai"><span>Saídas</span><b>${BRL(t.sai)}</b></div><div class="kpi ${t.fin<0?'saldo-neg':''}"><span>Saldo final</span><b>${BRL(t.fin)}</b></div>`;
+ $('resMes').innerHTML=ms.map(m=>{const x=totais(m);return `<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><b style="min-width:110px">${MES_N[m]||m}</b><span class="tag">ant ${BRL(x.ant)}</span><span class="tag">+ ${BRL(x.ent)}</span><span class="tag">− ${BRL(x.sai)}</span><b style="margin-left:auto">${BRL(x.fin)}</b></div>`}).join('');
+ const ls=DB.lancamentos.filter(l=>l.mes===MES);
+ const ent=ls.filter(l=>l.tipo==='entrada'), sai=ls.filter(l=>l.tipo==='saida');
+ const gE={};ent.forEach(l=>{gE[l.subitem||l.categoria]=(gE[l.subitem||l.categoria]||0)+ +l.valor;});
+ const gC={};sai.forEach(l=>{const k=l.categoria;gC[k]=gC[k]||{tot:0,it:{}};gC[k].tot+=+l.valor;const sk=l.subitem||l.descricao;gC[k].it[sk]=(gC[k].it[sk]||0)+ +l.valor;});
+ let h=`<div class="group-title">Saldo Anterior — ${BRL(t.ant)}</div><div class="group-title">ENTRADAS</div>`;
+ Object.entries(gE).forEach(([k,v])=>h+=`<div style="display:flex;padding:5px 8px;border-bottom:1px solid #f1f5f9"><span>${k}</span><b style="margin-left:auto">${BRL(v)}</b></div>`);
+ h+=`<div style="display:flex;padding:6px 8px"><b>Total Entradas</b><b style="margin-left:auto">${BRL(t.ent)}</b></div><div class="group-title">SAÍDAS</div>`;
+ Object.entries(gC).forEach(([c,o])=>{h+=`<div style="display:flex;padding:6px 8px;background:#f8fafc"><b>${c}</b><b style="margin-left:auto">${BRL(o.tot)}</b></div>`;Object.entries(o.it).forEach(([s,v])=>h+=`<div style="display:flex;padding:4px 8px 4px 20px;border-bottom:1px solid #f8fafc;color:#334155"><span>${s}</span><span style="margin-left:auto">${BRL(v)}</span></div>`);});
+ h+=`<div style="display:flex;padding:8px;background:#0f172a;color:#fff;border-radius:6px;margin-top:8px"><b>Total Saídas — ${BRL(t.sai)}</b><b style="margin-left:auto">Saldo Final — ${BRL(t.fin)}</b></div>`;
+ $('relFluxo').innerHTML=h;
+ const q=($('busca').value||'').toLowerCase();
+ const tb=ls.filter(l=>(l.descricao+l.categoria+l.subitem).toLowerCase().includes(q)).sort((a,b)=>a.data<b.data?-1:1);
+ $('tbLanc').innerHTML=tb.map(l=>{const docs=linkedDocs(l);const sug=l.tipo==='saida'?allComps(l.mes).filter(c=>autoMatch(l,c)&&!(l.links||[]).includes(c.path||'')).length:0;
+ const docCell=docs.length?`<span class="filelink" onclick='viewLanc("${l.id}")'>👁 Ver (${docs.length})</span>${sug?` <span class="pill warn">+${sug} sugerido(s)</span>`:''}`:(sug?`<span class="filelink" onclick='viewLanc("${l.id}")'>+ vincular (${sug})</span>`:'<span class="hint">—</span>');
+ return `<tr><td>${(l.data||'').split('-').reverse().join('/')}</td><td><span class="badge ${l.tipo==='entrada'?'b-entrada':'b-saida'}">${l.tipo.toUpperCase()}</span><div class="hint">${l.forma||''}</div></td><td><b>${l.categoria}</b><div class="hint">${l.subitem||''}</div></td><td>${l.descricao||''}</td><td class="num">${BRL(+l.valor)}</td><td>${docCell}</td><td class="noprint"><button class="btn btn-g" onclick="editLanc('${l.id}')">✏</button> <button class="btn btn-d" onclick="delLanc('${l.id}')">🗑</button></td></tr>`;}).join('')||'<tr><td colspan=7 class="hint">Nenhum lançamento.</td></tr>';
+ renderNF();renderComp();renderConf();
+}
+function viewLanc(id){const l=DB.lancamentos.find(x=>x.id===id);let docs=linkedDocs(l);if(!docs.length&&l.tipo==='saida'){const sug=allComps(l.mes).filter(c=>autoMatch(l,c)).map(c=>({nome:compDesc(c)+' (sugerido)',tipo:'application/pdf',url:compUrl(c)}));if(!sug.length)return alert('Nenhum comprovante encontrado para esta saída. Vincule pelo ✏ ou suba na aba Comprovantes.');return viewDocs('Sugestões — '+l.subitem,sug);}viewDocs((l.subitem||l.descricao||'Lançamento')+` — ${BRL(l.valor)}`,docs);}
+function saveSaldo(){DB.saldos[MES]=parseFloat($('saldoAnt').value||0);save();render();}
+function updCat(){const t=$('fTipo').value;const c=$('fCat');if(t==='entrada'){c.innerHTML=`<option>ENTRADAS</option>`;$('fForma').innerHTML=DB.tiposEntrada.map(x=>`<option>${x}</option>`).join('');$('dlSub').innerHTML=DB.tiposEntrada.map(x=>`<option value="${x}">`).join('');$('linkBox').style.display='none';}else{c.innerHTML=Object.keys(DB.categorias).map(k=>`<option>${k}</option>`).join('');updSub();$('fForma').innerHTML='<option value="">—</option>';$('linkBox').style.display='block';refreshLinks();}}
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='fCat'&&$('fTipo').value==='saida')updSub();if(e.target&&['fCat','fSub','fDesc'].includes(e.target.id))refreshLinks();});
+function updSub(){const subs=DB.categorias[$('fCat').value]||[];$('dlSub').innerHTML=subs.map(x=>`<option value="${x}">`).join('');}
+function curLancDraft(){return{categoria:$('fCat').value,subitem:$('fSub').value,descricao:$('fDesc').value,mes:($('fData').value||MES+'-10').slice(0,7)};}
+function refreshLinks(){if($('fTipo').value!=='saida')return;const d=curLancDraft();const comps=allComps(d.mes);$('linkList').innerHTML=comps.length?comps.map((c,i)=>{const key=c.path||c.id;const checked=(window._editLinks||[]).includes(key)||autoMatch(d,c);return `<label><input type="checkbox" data-k="${key}" ${checked?'checked':''}> 📄 ${compDesc(c)} ${c.orig==='repo'?'<span class="pill">online</span>':'<span class="pill warn">local</span>'}</label>`;}).join(''):'<span class="hint">Nenhum comprovante neste mês ainda. Suba na aba 📎.</span>';}
+function openLanc(){window._editLinks=[];$('mLancT').textContent='Novo lançamento';$('fId').value='';$('fData').value=MES+'-10';$('fTipo').value='entrada';updCat();$('fSub').value='';$('fDesc').value='';$('fValor').value='';$('fFile').value='';$('mLanc').classList.add('open');}
+function editLanc(id){const l=DB.lancamentos.find(x=>x.id===id);window._editLinks=[...(l.links||[])];$('mLancT').textContent='Editar lançamento';$('fId').value=l.id;$('fData').value=l.data;$('fTipo').value=l.tipo;updCat();$('fCat').value=l.categoria;if(l.tipo==='saida'){$('fSub').value=l.subitem||'';refreshLinks();}$('fDesc').value=l.descricao||'';$('fValor').value=l.valor;$('fFile').value='';$('mLanc').classList.add('open');}
+function delLanc(id){if(!confirm('Excluir lançamento?'))return;DB.lancamentos=DB.lancamentos.filter(x=>x.id!==id);save();render();}
+function saveLanc(){const id=$('fId').value;const data=$('fData').value||(MES+'-10');const mes=data.slice(0,7);const obj={id:id||uid(),mes,data,tipo:$('fTipo').value,categoria:$('fCat').value,subitem:$('fSub').value.trim(),descricao:$('fDesc').value.trim(),valor:parseFloat($('fValor').value||0),forma:$('fForma').value||'',links:[...document.querySelectorAll('#linkList input:checked')].map(i=>i.dataset.k)};
+ if(!(obj.valor>0))return alert('Informe o valor.');
+ const done=(anx)=>{if(anx){obj.anexoNome=anx.nome;obj.anexoTipo=anx.tipo;obj.anexoDataUrl=anx.url;}else if(id){const old=DB.lancamentos.find(x=>x.id===id);obj.anexoNome=old.anexoNome;obj.anexoTipo=old.anexoTipo;obj.anexoDataUrl=old.anexoDataUrl;}else{obj.anexoNome='';obj.anexoTipo='';obj.anexoDataUrl='';}
+ if(id){DB.lancamentos[DB.lancamentos.findIndex(x=>x.id===id)]=obj;}else DB.lancamentos.push(obj);
+ if(obj.tipo==='saida'&&obj.subitem&&DB.categorias[obj.categoria]&&!DB.categorias[obj.categoria].includes(obj.subitem))DB.categorias[obj.categoria].push(obj.subitem);
+ if(!DB.saldos[mes])DB.saldos[mes]=0;MES=mes;save();closeM('mLanc');render();};
+ fileToDataUrl($('fFile'),done);}
+function exportCSV(){const ls=DB.lancamentos.filter(l=>l.mes===MES);let c='data;tipo;categoria;subitem;descricao;valor;forma;docs\n';ls.forEach(l=>c+=`${l.data};${l.tipo};${l.categoria};${l.subitem};${(l.descricao||'').replace(/;/g,',')};${l.valor};${l.forma};${(l.links||[]).join('|')}\n`);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download=`fluxo-${MES}.csv`;a.click();}
+
+function openNF(){$('nId').value='';$('nNum').value='';$('nCli').value='';$('nData').value=MES+'-10';$('nValor').value='';$('nFile').value='';$('mNF').classList.add('open');}
+function saveNF(){const id=$('nId').value;const num=parseInt($('nNum').value||0);if(!num)return alert('Informe o número da NF.');const obj={id:id||uid(),mes:($('nData').value||MES+'-10').slice(0,7),numero:num,cliente:$('nCli').value.trim(),data:$('nData').value,valor:parseFloat($('nValor').value||0)};
+ fileToDataUrl($('nFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}
+ DB.nfsExtra.push(obj);save();closeM('mNF');render();});}
+function renderNF(){const q=($('buscaNF').value||'').toLowerCase();
+ const repo=REPO.nfs.filter(n=>n.mes===MES&&(n.cliente+' '+n.numero).toLowerCase().includes(q)).sort((a,b)=>a.numero-b.numero);
+ const extra=(DB.nfsExtra||[]).filter(n=>n.mes===MES&&(n.cliente+' '+n.numero).toLowerCase().includes(q));
+ $('tbNF').innerHTML=repo.map(n=>`<tr><td><b>${n.numero}</b></td><td>${n.cliente}</td><td class="hint">ver PDF</td><td class="num hint">—</td><td><span class="filelink" onclick="viewDocs('NF ${n.numero} — ${n.cliente.replace(/'/g,'')}',[{nome:'NF ${n.numero}',tipo:'application/pdf',url:'${enc(n.path)}'}])">👁 Ver PDF</span> <span class="pill">online</span></td><td class="noprint hint">repo</td></tr>`).join('')
+ +extra.map(n=>`<tr><td><b>${n.numero}</b></td><td>${n.cliente}</td><td>${(n.data||'').split('-').reverse().join('/')}</td><td class="num">${BRL(+n.valor)}</td><td>${n.arquivoDataUrl?`<span class="filelink" onclick='viewDocs("NF ${n.numero}",[{nome:"${n.arquivoNome}",tipo:"${n.arquivoTipo}",url:DB.nfsExtra.find(x=>x.id==="${n.id}").arquivoDataUrl}])'>👁 Ver</span>`:'<span class="hint">sem arquivo</span>'}</td><td class="noprint"><button class="btn btn-d" onclick="delNF('${n.id}')">🗑</button></td></tr>`).join('')
+ ||'<tr><td colspan=6 class="hint">Nenhuma NF neste mês.</td></tr>';
+ $('totNF').textContent=`${repo.length} nota(s) online + ${extra.length} avulsa(s)`;}
+function delNF(id){if(!confirm('Excluir NF?'))return;DB.nfsExtra=DB.nfsExtra.filter(x=>x.id!==id);save();render();}
+
+function openComp(){const ms=mesesDisponiveis();$('cMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('cId').value='';$('cDesc').value='';$('cValor').value='';$('cFile').value='';$('mComp').classList.add('open');}
+function saveComp(){const obj={id:uid(),mes:$('cMes').value,descricao:$('cDesc').value.trim(),valor:parseFloat($('cValor').value||0)};
+ if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('cFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.compExtra.push(obj);save();closeM('mComp');render();});}
+function renderComp(){const q=($('buscaC').value||'').toLowerCase();
+ const repo=REPO.comprovantes.filter(c=>c.mes===MES&&(c.nome).toLowerCase().includes(q));
+ const extra=(DB.compExtra||[]).filter(c=>c.mes===MES&&(c.descricao).toLowerCase().includes(q));
+ const vinc=(path)=>DB.lancamentos.filter(l=>(l.links||[]).includes(path)).map(l=>l.subitem||l.descricao).join(', ');
+ $('tbComp').innerHTML=repo.map(c=>`<tr><td><span class="filelink" onclick="viewDocs('${c.nome.replace(/'/g,'')}',[{nome:'${c.nome.replace(/'/g,'')}',tipo:'application/pdf',url:'${enc(c.path)}'}])">👁 ${c.nome}</span> <span class="pill">online</span></td><td class="hint">${(c.size/1024).toFixed(0)} KB</td><td class="hint">${vinc(c.path)||'—'}</td><td class="noprint hint">repo</td></tr>`).join('')
+ +extra.map(c=>`<tr><td><span class="filelink" onclick='viewDocs("${c.descricao.replace(/"/g,'')}",[{nome:"${c.arquivoNome}",tipo:"${c.arquivoTipo}",url:DB.compExtra.find(x=>x.id==="${c.id}").arquivoDataUrl}])'>👁 ${c.arquivoNome||c.descricao}</span></td><td>${c.descricao}${c.valor?' — '+BRL(c.valor):''}</td><td class="hint">—</td><td class="noprint"><button class="btn btn-d" onclick="delComp('${c.id}')">🗑</button></td></tr>`).join('')
+ ||'<tr><td colspan=4 class="hint">Nenhum comprovante neste mês.</td></tr>';
+ $('totComp').textContent=`${repo.length} online + ${extra.length} avulso(s)`;}
+function delComp(id){if(!confirm('Excluir comprovante?'))return;DB.compExtra=DB.compExtra.filter(x=>x.id!==id);save();render();}
+
+function renderConf(){$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
+ $('listCat').innerHTML=Object.entries(DB.categorias).map(([c,subs])=>`<div style="padding:8px 0;border-bottom:1px solid #f1f5f9"><b>${c}</b> <button class="btn btn-d noprint" style="padding:2px 8px" onclick="delCat('${c}')">✕</button><div class="hint">${subs.join(' • ')||'sem subitens'}</div></div>`).join('');}
+function addTE(){const v=$('newTE').value.trim();if(!v)return;DB.tiposEntrada.push(v);$('newTE').value='';save();render();}
+function delTE(i){DB.tiposEntrada.splice(i,1);save();render();}
+function addCat(){const v=$('newCat').value.trim().toUpperCase();if(!v)return;DB.categorias[v]=DB.categorias[v]||[];$('newCat').value='';save();render();}
+function delCat(c){if(!confirm('Excluir categoria '+c+'?'))return;delete DB.categorias[c];save();render();}
+function backup(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(DB)],{type:'application/json'}));a.download='biofisio-erp-backup.json';a.click();}
+function restore(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{DB=JSON.parse(r.result);save();render();alert('Backup restaurado!');};r.readAsText(f);}
+function zerar(){if(!confirm('Apagar lançamentos locais? (docs/ online não são afetados)'))return;localStorage.removeItem(KEY);DB=seed();save();render();}
+
+load();render();updCat();loadManifest();
+</script>
+</body>
+</html>

@@ -1,0 +1,1249 @@
+{
+    "nfs":  [
+                {
+                    "cliente":  "ANA LUCIA DO NASCIMENTO RODRIGUES",
+                    "mes":  "2026-05",
+                    "numero":  185,
+                    "path":  "docs/nfs/2026-05/NF 185 - ANA LUCIA DO NASCIMENTO RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "NEUZA MARIA DOS SANTOS",
+                    "mes":  "2026-05",
+                    "numero":  186,
+                    "path":  "docs/nfs/2026-05/NF 186 - NEUZA MARIA DOS SANTOS.pdf"
+                },
+                {
+                    "cliente":  "NEUZA MARIA DOS SANTOS",
+                    "mes":  "2026-05",
+                    "numero":  187,
+                    "path":  "docs/nfs/2026-05/NF 187 - NEUZA MARIA DOS SANTOS.pdf"
+                },
+                {
+                    "cliente":  "RAFAEL PESSOA",
+                    "mes":  "2026-05",
+                    "numero":  188,
+                    "path":  "docs/nfs/2026-05/NF 188 - RAFAEL PESSOA.pdf"
+                },
+                {
+                    "cliente":  "ELISABETH CRISTINA DE SOUZA MAGALHAES",
+                    "mes":  "2026-05",
+                    "numero":  189,
+                    "path":  "docs/nfs/2026-05/NF 189 - ELISABETH CRISTINA DE SOUZA MAGALHAES.pdf"
+                },
+                {
+                    "cliente":  "LIAMAR RIBEIRO DE SOUSA SILVA",
+                    "mes":  "2026-05",
+                    "numero":  190,
+                    "path":  "docs/nfs/2026-05/NF 190 - LIAMAR RIBEIRO DE SOUSA SILVA.pdf"
+                },
+                {
+                    "cliente":  "LIAMAR RIBEIRO DE SOUSA SILVA",
+                    "mes":  "2026-05",
+                    "numero":  191,
+                    "path":  "docs/nfs/2026-05/NF 191 - LIAMAR RIBEIRO DE SOUSA SILVA.pdf"
+                },
+                {
+                    "cliente":  "LIAMAR RIBEIRO DE SOUSA SILVA",
+                    "mes":  "2026-05",
+                    "numero":  192,
+                    "path":  "docs/nfs/2026-05/NF 192 - LIAMAR RIBEIRO DE SOUSA SILVA.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SALGUEIRO DE AGUIAR",
+                    "mes":  "2026-05",
+                    "numero":  193,
+                    "path":  "docs/nfs/2026-05/NF 193 - ANGELA SALGUEIRO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "ALEX CHAVES ALBERTO",
+                    "mes":  "2026-05",
+                    "numero":  194,
+                    "path":  "docs/nfs/2026-05/NF 194 - ALEX CHAVES ALBERTO.pdf"
+                },
+                {
+                    "cliente":  "ALCIDINEIA IVO",
+                    "mes":  "2026-05",
+                    "numero":  195,
+                    "path":  "docs/nfs/2026-05/NF 195 - ALCIDINEIA IVO.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SUSINI RIBEIRO HADDAD",
+                    "mes":  "2026-05",
+                    "numero":  196,
+                    "path":  "docs/nfs/2026-05/NF 196 - ANGELA SUSINI RIBEIRO HADDAD.pdf"
+                },
+                {
+                    "cliente":  "CARLA LUCIANE MANSKE CAMARGO",
+                    "mes":  "2026-05",
+                    "numero":  197,
+                    "path":  "docs/nfs/2026-05/NF 197 - CARLA LUCIANE MANSKE CAMARGO.pdf"
+                },
+                {
+                    "cliente":  "DAGMAR DE ANDRADE CEA",
+                    "mes":  "2026-05",
+                    "numero":  198,
+                    "path":  "docs/nfs/2026-05/NF 198 - DAGMAR DE ANDRADE CEA.pdf"
+                },
+                {
+                    "cliente":  "DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO",
+                    "mes":  "2026-05",
+                    "numero":  199,
+                    "path":  "docs/nfs/2026-05/NF 199 - DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "DIRCE ORSA DE AMORIM",
+                    "mes":  "2026-05",
+                    "numero":  200,
+                    "path":  "docs/nfs/2026-05/NF 200 - DIRCE ORSA DE AMORIM.pdf"
+                },
+                {
+                    "cliente":  "ERICA HELENA FONSECA GIL",
+                    "mes":  "2026-05",
+                    "numero":  201,
+                    "path":  "docs/nfs/2026-05/NF 201 - ERICA HELENA FONSECA GIL.pdf"
+                },
+                {
+                    "cliente":  "JULIANA SANTOS BARBOZA",
+                    "mes":  "2026-05",
+                    "numero":  202,
+                    "path":  "docs/nfs/2026-05/NF 202 - JULIANA SANTOS BARBOZA.pdf"
+                },
+                {
+                    "cliente":  "IRACEMA CUTRIM GOUVEIA",
+                    "mes":  "2026-05",
+                    "numero":  203,
+                    "path":  "docs/nfs/2026-05/NF 203 - IRACEMA CUTRIM GOUVEIA.pdf"
+                },
+                {
+                    "cliente":  "LUCIANA FREITAS BARBOSA",
+                    "mes":  "2026-05",
+                    "numero":  204,
+                    "path":  "docs/nfs/2026-05/NF 204 - LUCIANA FREITAS BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-05",
+                    "numero":  205,
+                    "path":  "docs/nfs/2026-05/NF 205 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-05",
+                    "numero":  206,
+                    "path":  "docs/nfs/2026-05/NF 206 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "NEYDE MARIA BARBOSA",
+                    "mes":  "2026-05",
+                    "numero":  207,
+                    "path":  "docs/nfs/2026-05/NF 207 - NEYDE MARIA BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "PEDRO MITIDIERI PACHECO DE AGUIAR",
+                    "mes":  "2026-05",
+                    "numero":  208,
+                    "path":  "docs/nfs/2026-05/NF 208 - PEDRO MITIDIERI PACHECO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "SONIA MARIA DE ALMEIDA PEDRETE",
+                    "mes":  "2026-05",
+                    "numero":  209,
+                    "path":  "docs/nfs/2026-05/NF 209 - SONIA MARIA DE ALMEIDA PEDRETE.pdf"
+                },
+                {
+                    "cliente":  "SUZETE DE MORAES MACEDO",
+                    "mes":  "2026-05",
+                    "numero":  210,
+                    "path":  "docs/nfs/2026-05/NF 210 - SUZETE DE MORAES MACEDO.pdf"
+                },
+                {
+                    "cliente":  "TERESA DE LUCA",
+                    "mes":  "2026-05",
+                    "numero":  211,
+                    "path":  "docs/nfs/2026-05/NF 211 - TERESA DE LUCA.pdf"
+                },
+                {
+                    "cliente":  "ROSILENE MATTOS CARPINTEIRO",
+                    "mes":  "2026-05",
+                    "numero":  212,
+                    "path":  "docs/nfs/2026-05/NF 212 - ROSILENE MATTOS CARPINTEIRO.pdf"
+                },
+                {
+                    "cliente":  "CARMEN LUCIA VIEIRA FORTES",
+                    "mes":  "2026-05",
+                    "numero":  213,
+                    "path":  "docs/nfs/2026-05/NF 213 - CARMEN LUCIA VIEIRA FORTES.pdf"
+                },
+                {
+                    "cliente":  "MAURA DOS SANTOS BAPTISTA",
+                    "mes":  "2026-05",
+                    "numero":  214,
+                    "path":  "docs/nfs/2026-05/NF 214 - MAURA DOS SANTOS BAPTISTA.pdf"
+                },
+                {
+                    "cliente":  "CARLA CRISTINA DA ROCHA DAMAS",
+                    "mes":  "2026-05",
+                    "numero":  215,
+                    "path":  "docs/nfs/2026-05/NF 215 - CARLA CRISTINA DA ROCHA DAMAS.pdf"
+                },
+                {
+                    "cliente":  "ALBERTO LUIS SILVA DE SOUZA",
+                    "mes":  "2026-05",
+                    "numero":  216,
+                    "path":  "docs/nfs/2026-05/NF 216 - ALBERTO LUIS SILVA DE SOUZA.pdf"
+                },
+                {
+                    "cliente":  "ISABEL DE OLIVEIRA MARINHO",
+                    "mes":  "2026-05",
+                    "numero":  217,
+                    "path":  "docs/nfs/2026-05/NF 217 - ISABEL DE OLIVEIRA MARINHO.pdf"
+                },
+                {
+                    "cliente":  "SUZANA MONTALEAO DA NOBREGA",
+                    "mes":  "2026-05",
+                    "numero":  218,
+                    "path":  "docs/nfs/2026-05/NF 218 - SUZANA MONTALEAO DA NOBREGA.pdf"
+                },
+                {
+                    "cliente":  "ANA LUCIA DO NASCIMENTO RODRIGUES",
+                    "mes":  "2026-05",
+                    "numero":  219,
+                    "path":  "docs/nfs/2026-05/NF 219 - ANA LUCIA DO NASCIMENTO RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "HILZIA ELANE ALMEIDA BACELLAR PEREIRA",
+                    "mes":  "2026-05",
+                    "numero":  220,
+                    "path":  "docs/nfs/2026-05/NF 220 - HILZIA ELANE ALMEIDA BACELLAR PEREIRA.pdf"
+                },
+                {
+                    "cliente":  "JOSE MIRANDA RIBEIRO",
+                    "mes":  "2026-05",
+                    "numero":  221,
+                    "path":  "docs/nfs/2026-05/NF 221 - JOSE MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "LUCIA QUARESMA DA FONSECA",
+                    "mes":  "2026-05",
+                    "numero":  222,
+                    "path":  "docs/nfs/2026-05/NF 222 - LUCIA QUARESMA DA FONSECA.pdf"
+                },
+                {
+                    "cliente":  "RAFAEL PESSOA",
+                    "mes":  "2026-05",
+                    "numero":  223,
+                    "path":  "docs/nfs/2026-05/NF 223 - RAFAEL PESSOA.pdf"
+                },
+                {
+                    "cliente":  "DIEGO VETERE DA SILVA",
+                    "mes":  "2026-05",
+                    "numero":  224,
+                    "path":  "docs/nfs/2026-05/NF 224 - DIEGO VETERE DA SILVA.pdf"
+                },
+                {
+                    "cliente":  "LUIZ FERNANDO ANTONINO",
+                    "mes":  "2026-05",
+                    "numero":  225,
+                    "path":  "docs/nfs/2026-05/NF 225 - LUIZ FERNANDO ANTONINO.pdf"
+                },
+                {
+                    "cliente":  "ROBERTA LUCIA LEANDRO DA SILVA VIEIRA",
+                    "mes":  "2026-05",
+                    "numero":  226,
+                    "path":  "docs/nfs/2026-05/NF 226 - ROBERTA LUCIA LEANDRO DA SILVA VIEIRA.pdf"
+                },
+                {
+                    "cliente":  "DELTA FERREIRA CARVANO",
+                    "mes":  "2026-05",
+                    "numero":  227,
+                    "path":  "docs/nfs/2026-05/NF 227 - DELTA FERREIRA CARVANO.pdf"
+                },
+                {
+                    "cliente":  "EDUARDO LUIS PEREIRA RODRIGUES",
+                    "mes":  "2026-05",
+                    "numero":  228,
+                    "path":  "docs/nfs/2026-05/NF 228 - EDUARDO LUIS PEREIRA RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "NANCI DIOMONDES DA FONSECA GUSMAO SOARES",
+                    "mes":  "2026-05",
+                    "numero":  229,
+                    "path":  "docs/nfs/2026-05/NF 229 - NANCI DIOMONDES DA FONSECA GUSMAO SOARES.pdf"
+                },
+                {
+                    "cliente":  "SIDNEY DA MOTTA HADDAD",
+                    "mes":  "2026-05",
+                    "numero":  230,
+                    "path":  "docs/nfs/2026-05/NF 230 - SIDNEY DA MOTTA HADDAD.pdf"
+                },
+                {
+                    "cliente":  "ROSEMARY FERNANDES DA COSTA",
+                    "mes":  "2026-05",
+                    "numero":  231,
+                    "path":  "docs/nfs/2026-05/NF 231 - ROSEMARY FERNANDES DA COSTA.pdf"
+                },
+                {
+                    "cliente":  "RODOLFO HOYOS KAHN",
+                    "mes":  "2026-05",
+                    "numero":  232,
+                    "path":  "docs/nfs/2026-05/NF 232 - RODOLFO HOYOS KAHN.pdf"
+                },
+                {
+                    "cliente":  "MONICA RIBEIRO CARNEIRO LEAL",
+                    "mes":  "2026-05",
+                    "numero":  233,
+                    "path":  "docs/nfs/2026-05/NF 233 - MONICA RIBEIRO CARNEIRO LEAL.pdf"
+                },
+                {
+                    "cliente":  "FLAVIA ANDRADE DE SOUZA ALBUQUERQUE",
+                    "mes":  "2026-05",
+                    "numero":  234,
+                    "path":  "docs/nfs/2026-05/NF 234 - FLAVIA ANDRADE DE SOUZA ALBUQUERQUE.pdf"
+                },
+                {
+                    "cliente":  "FLAVIA ANDRADE DE SOUZA ALBUQUERQUE",
+                    "mes":  "2026-05",
+                    "numero":  235,
+                    "path":  "docs/nfs/2026-05/NF 235 - FLAVIA ANDRADE DE SOUZA ALBUQUERQUE.pdf"
+                },
+                {
+                    "cliente":  "ANA LUCIA DO NASCIMENTO RODRIGUES",
+                    "mes":  "2026-05",
+                    "numero":  236,
+                    "path":  "docs/nfs/2026-05/NF 236 - ANA LUCIA DO NASCIMENTO RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "JULIANA SEIDNER PERROTTA",
+                    "mes":  "2026-05",
+                    "numero":  237,
+                    "path":  "docs/nfs/2026-05/NF 237 - JULIANA SEIDNER PERROTTA.pdf"
+                },
+                {
+                    "cliente":  "SIDNEY DA MOTTA HADDAD",
+                    "mes":  "2026-06",
+                    "numero":  238,
+                    "path":  "docs/nfs/2026-06/NF 238 - SIDNEY DA MOTTA HADDAD.pdf"
+                },
+                {
+                    "cliente":  "JULIANA BOTELHO DA SILVA",
+                    "mes":  "2026-06",
+                    "numero":  239,
+                    "path":  "docs/nfs/2026-06/NF 239 - JULIANA BOTELHO DA SILVA.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SALGUEIRO DE AGUIAR",
+                    "mes":  "2026-06",
+                    "numero":  240,
+                    "path":  "docs/nfs/2026-06/NF 240 - ANGELA SALGUEIRO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "ALEX CHAVES ALBERTO",
+                    "mes":  "2026-06",
+                    "numero":  241,
+                    "path":  "docs/nfs/2026-06/NF 241 - ALEX CHAVES ALBERTO.pdf"
+                },
+                {
+                    "cliente":  "ALCIDINEIA IVO",
+                    "mes":  "2026-06",
+                    "numero":  242,
+                    "path":  "docs/nfs/2026-06/NF 242 - ALCIDINEIA IVO.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SUSINI RIBEIRO HADDAD",
+                    "mes":  "2026-06",
+                    "numero":  243,
+                    "path":  "docs/nfs/2026-06/NF 243 - ANGELA SUSINI RIBEIRO HADDAD.pdf"
+                },
+                {
+                    "cliente":  "CARLA LUCIANE MANSKE CAMARGO",
+                    "mes":  "2026-06",
+                    "numero":  244,
+                    "path":  "docs/nfs/2026-06/NF 244 - CARLA LUCIANE MANSKE CAMARGO.pdf"
+                },
+                {
+                    "cliente":  "DAGMAR DE ANDRADE CEA",
+                    "mes":  "2026-06",
+                    "numero":  245,
+                    "path":  "docs/nfs/2026-06/NF 245 - DAGMAR DE ANDRADE CEA.pdf"
+                },
+                {
+                    "cliente":  "DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO",
+                    "mes":  "2026-06",
+                    "numero":  246,
+                    "path":  "docs/nfs/2026-06/NF 246 - DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "JULIANA SANTOS BARBOZA",
+                    "mes":  "2026-06",
+                    "numero":  247,
+                    "path":  "docs/nfs/2026-06/NF 247 - JULIANA SANTOS BARBOZA.pdf"
+                },
+                {
+                    "cliente":  "IRACEMA CUTRIM GOUVEIA",
+                    "mes":  "2026-06",
+                    "numero":  248,
+                    "path":  "docs/nfs/2026-06/NF 248 - IRACEMA CUTRIM GOUVEIA.pdf"
+                },
+                {
+                    "cliente":  "LUCIANA FREITAS BARBOSA",
+                    "mes":  "2026-06",
+                    "numero":  249,
+                    "path":  "docs/nfs/2026-06/NF 249 - LUCIANA FREITAS BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-06",
+                    "numero":  250,
+                    "path":  "docs/nfs/2026-06/NF 250 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-06",
+                    "numero":  251,
+                    "path":  "docs/nfs/2026-06/NF 251 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "NEYDE MARIA BARBOSA",
+                    "mes":  "2026-06",
+                    "numero":  252,
+                    "path":  "docs/nfs/2026-06/NF 252 - NEYDE MARIA BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "PEDRO MITIDIERI PACHECO DE AGUIAR",
+                    "mes":  "2026-06",
+                    "numero":  253,
+                    "path":  "docs/nfs/2026-06/NF 253 - PEDRO MITIDIERI PACHECO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "SONIA MARIA DE ALMEIDA PEDRETE",
+                    "mes":  "2026-06",
+                    "numero":  254,
+                    "path":  "docs/nfs/2026-06/NF 254 - SONIA MARIA DE ALMEIDA PEDRETE.pdf"
+                },
+                {
+                    "cliente":  "SUZETE DE MORAES MACEDO",
+                    "mes":  "2026-06",
+                    "numero":  255,
+                    "path":  "docs/nfs/2026-06/NF 255 - SUZETE DE MORAES MACEDO.pdf"
+                },
+                {
+                    "cliente":  "CARMEN LUCIA VIEIRA FORTES",
+                    "mes":  "2026-06",
+                    "numero":  256,
+                    "path":  "docs/nfs/2026-06/NF 256 - CARMEN LUCIA VIEIRA FORTES.pdf"
+                },
+                {
+                    "cliente":  "MAURA DOS SANTOS BAPTISTA",
+                    "mes":  "2026-06",
+                    "numero":  257,
+                    "path":  "docs/nfs/2026-06/NF 257 - MAURA DOS SANTOS BAPTISTA.pdf"
+                },
+                {
+                    "cliente":  "ALBERTO LUIS SILVA DE SOUZA",
+                    "mes":  "2026-06",
+                    "numero":  258,
+                    "path":  "docs/nfs/2026-06/NF 258 - ALBERTO LUIS SILVA DE SOUZA.pdf"
+                },
+                {
+                    "cliente":  "LIAMAR RIBEIRO DE SOUSA SILVA",
+                    "mes":  "2026-06",
+                    "numero":  259,
+                    "path":  "docs/nfs/2026-06/NF 259 - LIAMAR RIBEIRO DE SOUSA SILVA.pdf"
+                },
+                {
+                    "cliente":  "ISABEL DE OLIVEIRA MARINHO",
+                    "mes":  "2026-06",
+                    "numero":  260,
+                    "path":  "docs/nfs/2026-06/NF 260 - ISABEL DE OLIVEIRA MARINHO.pdf"
+                },
+                {
+                    "cliente":  "SUZANA MONTALEAO DA NOBREGA",
+                    "mes":  "2026-06",
+                    "numero":  261,
+                    "path":  "docs/nfs/2026-06/NF 261 - SUZANA MONTALEAO DA NOBREGA.pdf"
+                },
+                {
+                    "cliente":  "SUZANA MONTALEAO DA NOBREGA",
+                    "mes":  "2026-06",
+                    "numero":  262,
+                    "path":  "docs/nfs/2026-06/NF 262 - SUZANA MONTALEAO DA NOBREGA.pdf"
+                },
+                {
+                    "cliente":  "ELISABETH CRISTINA DE SOUZA MAGALHAES",
+                    "mes":  "2026-06",
+                    "numero":  263,
+                    "path":  "docs/nfs/2026-06/NF 263 - ELISABETH CRISTINA DE SOUZA MAGALHAES.pdf"
+                },
+                {
+                    "cliente":  "JOSE MIRANDA RIBEIRO",
+                    "mes":  "2026-06",
+                    "numero":  265,
+                    "path":  "docs/nfs/2026-06/NF 265 - JOSE MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "ADRIANA MARIA PENNA QUINTAO",
+                    "mes":  "2026-06",
+                    "numero":  266,
+                    "path":  "docs/nfs/2026-06/NF 266 - ADRIANA MARIA PENNA QUINTAO.pdf"
+                },
+                {
+                    "cliente":  "LUIZ FERNANDO ANTONINO",
+                    "mes":  "2026-06",
+                    "numero":  267,
+                    "path":  "docs/nfs/2026-06/NF 267 - LUIZ FERNANDO ANTONINO.pdf"
+                },
+                {
+                    "cliente":  "ALINE MARIA RIBEIRO BARREIROS",
+                    "mes":  "2026-06",
+                    "numero":  268,
+                    "path":  "docs/nfs/2026-06/NF 268 - ALINE MARIA RIBEIRO BARREIROS.pdf"
+                },
+                {
+                    "cliente":  "DELTA FERREIRA CARVANO",
+                    "mes":  "2026-06",
+                    "numero":  269,
+                    "path":  "docs/nfs/2026-06/NF 269 - DELTA FERREIRA CARVANO.pdf"
+                },
+                {
+                    "cliente":  "EDUARDO LUIS PEREIRA RODRIGUES",
+                    "mes":  "2026-06",
+                    "numero":  270,
+                    "path":  "docs/nfs/2026-06/NF 270 - EDUARDO LUIS PEREIRA RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "NANCI DIOMONDES DA FONSECA GUSMAO SOARES",
+                    "mes":  "2026-06",
+                    "numero":  271,
+                    "path":  "docs/nfs/2026-06/NF 271 - NANCI DIOMONDES DA FONSECA GUSMAO SOARES.pdf"
+                },
+                {
+                    "cliente":  "SIDNEY DA MOTTA HADDAD",
+                    "mes":  "2026-06",
+                    "numero":  272,
+                    "path":  "docs/nfs/2026-06/NF 272 - SIDNEY DA MOTTA HADDAD.pdf"
+                },
+                {
+                    "cliente":  "EDUARDO LUIS PEREIRA RODRIGUES",
+                    "mes":  "2026-06",
+                    "numero":  273,
+                    "path":  "docs/nfs/2026-06/NF 273 - EDUARDO LUIS PEREIRA RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "RODOLFO HOYOS KAHN",
+                    "mes":  "2026-06",
+                    "numero":  275,
+                    "path":  "docs/nfs/2026-06/NF 275 - RODOLFO HOYOS KAHN.pdf"
+                },
+                {
+                    "cliente":  "MONICA RIBEIRO CARNEIRO LEAL",
+                    "mes":  "2026-06",
+                    "numero":  276,
+                    "path":  "docs/nfs/2026-06/NF 276 - MONICA RIBEIRO CARNEIRO LEAL.pdf"
+                },
+                {
+                    "cliente":  "FLAVIA ANDRADE DE SOUZA ALBUQUERQUE",
+                    "mes":  "2026-06",
+                    "numero":  277,
+                    "path":  "docs/nfs/2026-06/NF 277 - FLAVIA ANDRADE DE SOUZA ALBUQUERQUE.pdf"
+                },
+                {
+                    "cliente":  "ROSEMARY FERNANDES DA COSTA",
+                    "mes":  "2026-06",
+                    "numero":  278,
+                    "path":  "docs/nfs/2026-06/NF 278 - ROSEMARY FERNANDES DA COSTA.pdf"
+                },
+                {
+                    "cliente":  "ROBERTA LUCIA LEANDRO DA SILVA VIEIRA",
+                    "mes":  "2026-06",
+                    "numero":  279,
+                    "path":  "docs/nfs/2026-06/NF 279 - ROBERTA LUCIA LEANDRO DA SILVA VIEIRA.pdf"
+                },
+                {
+                    "cliente":  "ALINE MARIA RIBEIRO BARREIROS",
+                    "mes":  "2026-06",
+                    "numero":  280,
+                    "path":  "docs/nfs/2026-06/NF 280 - ALINE MARIA RIBEIRO BARREIROS.pdf"
+                },
+                {
+                    "cliente":  "LUCIA QUARESMA DA FONSECA",
+                    "mes":  "2026-06",
+                    "numero":  281,
+                    "path":  "docs/nfs/2026-06/NF 281 - LUCIA QUARESMA DA FONSECA.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SALGUEIRO DE AGUIAR",
+                    "mes":  "2026-07",
+                    "numero":  282,
+                    "path":  "docs/nfs/2026-07/NF 282 - ANGELA SALGUEIRO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "TOMADOR NÃO IDENTIFICADO",
+                    "mes":  "2026-07",
+                    "numero":  283,
+                    "path":  "docs/nfs/2026-07/NF 283 - TOMADOR NÃO IDENTIFICADO.pdf"
+                },
+                {
+                    "cliente":  "ALCIDINEIA IVO",
+                    "mes":  "2026-07",
+                    "numero":  284,
+                    "path":  "docs/nfs/2026-07/NF 284 - ALCIDINEIA IVO.pdf"
+                },
+                {
+                    "cliente":  "ANGELA SUSINI RIBEIRO HADDAD",
+                    "mes":  "2026-07",
+                    "numero":  285,
+                    "path":  "docs/nfs/2026-07/NF 285 - ANGELA SUSINI RIBEIRO HADDAD.pdf"
+                },
+                {
+                    "cliente":  "CARLA LUCIANE MANSKE CAMARGO",
+                    "mes":  "2026-07",
+                    "numero":  286,
+                    "path":  "docs/nfs/2026-07/NF 286 - CARLA LUCIANE MANSKE CAMARGO.pdf"
+                },
+                {
+                    "cliente":  "DAGMAR DE ANDRADE CEA",
+                    "mes":  "2026-07",
+                    "numero":  287,
+                    "path":  "docs/nfs/2026-07/NF 287 - DAGMAR DE ANDRADE CEA.pdf"
+                },
+                {
+                    "cliente":  "DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO",
+                    "mes":  "2026-07",
+                    "numero":  288,
+                    "path":  "docs/nfs/2026-07/NF 288 - DENISE QUARESMA DA FONSECA MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "JULIANA SANTOS BARBOZA",
+                    "mes":  "2026-07",
+                    "numero":  289,
+                    "path":  "docs/nfs/2026-07/NF 289 - JULIANA SANTOS BARBOZA.pdf"
+                },
+                {
+                    "cliente":  "IRACEMA CUTRIM GOUVEIA",
+                    "mes":  "2026-07",
+                    "numero":  290,
+                    "path":  "docs/nfs/2026-07/NF 290 - IRACEMA CUTRIM GOUVEIA.pdf"
+                },
+                {
+                    "cliente":  "LUCIANA FREITAS BARBOSA",
+                    "mes":  "2026-07",
+                    "numero":  291,
+                    "path":  "docs/nfs/2026-07/NF 291 - LUCIANA FREITAS BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-07",
+                    "numero":  293,
+                    "path":  "docs/nfs/2026-07/NF 293 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "MARIA ORLINDA DAEMON DO PRADO",
+                    "mes":  "2026-07",
+                    "numero":  294,
+                    "path":  "docs/nfs/2026-07/NF 294 - MARIA ORLINDA DAEMON DO PRADO.pdf"
+                },
+                {
+                    "cliente":  "NEYDE MARIA BARBOSA",
+                    "mes":  "2026-07",
+                    "numero":  295,
+                    "path":  "docs/nfs/2026-07/NF 295 - NEYDE MARIA BARBOSA.pdf"
+                },
+                {
+                    "cliente":  "PEDRO MITIDIERI PACHECO DE AGUIAR",
+                    "mes":  "2026-07",
+                    "numero":  296,
+                    "path":  "docs/nfs/2026-07/NF 296 - PEDRO MITIDIERI PACHECO DE AGUIAR.pdf"
+                },
+                {
+                    "cliente":  "SONIA MARIA DE ALMEIDA PEDRETE",
+                    "mes":  "2026-07",
+                    "numero":  297,
+                    "path":  "docs/nfs/2026-07/NF 297 - SONIA MARIA DE ALMEIDA PEDRETE.pdf"
+                },
+                {
+                    "cliente":  "CARMEN LUCIA VIEIRA FORTES",
+                    "mes":  "2026-07",
+                    "numero":  298,
+                    "path":  "docs/nfs/2026-07/NF 298 - CARMEN LUCIA VIEIRA FORTES.pdf"
+                },
+                {
+                    "cliente":  "MAURA DOS SANTOS BAPTISTA",
+                    "mes":  "2026-07",
+                    "numero":  299,
+                    "path":  "docs/nfs/2026-07/NF 299 - MAURA DOS SANTOS BAPTISTA.pdf"
+                },
+                {
+                    "cliente":  "ALBERTO LUIS SILVA DE SOUZA",
+                    "mes":  "2026-07",
+                    "numero":  300,
+                    "path":  "docs/nfs/2026-07/NF 300 - ALBERTO LUIS SILVA DE SOUZA.pdf"
+                },
+                {
+                    "cliente":  "LIAMAR RIBEIRO DE SOUSA SILVA",
+                    "mes":  "2026-07",
+                    "numero":  301,
+                    "path":  "docs/nfs/2026-07/NF 301 - LIAMAR RIBEIRO DE SOUSA SILVA.pdf"
+                },
+                {
+                    "cliente":  "ISABEL DE OLIVEIRA MARINHO",
+                    "mes":  "2026-07",
+                    "numero":  302,
+                    "path":  "docs/nfs/2026-07/NF 302 - ISABEL DE OLIVEIRA MARINHO.pdf"
+                },
+                {
+                    "cliente":  "ELISABETH CRISTINA DE SOUZA MAGALHAES",
+                    "mes":  "2026-07",
+                    "numero":  303,
+                    "path":  "docs/nfs/2026-07/NF 303 - ELISABETH CRISTINA DE SOUZA MAGALHAES.pdf"
+                },
+                {
+                    "cliente":  "JOSE MIRANDA RIBEIRO",
+                    "mes":  "2026-07",
+                    "numero":  304,
+                    "path":  "docs/nfs/2026-07/NF 304 - JOSE MIRANDA RIBEIRO.pdf"
+                },
+                {
+                    "cliente":  "LUCIA QUARESMA DA FONSECA",
+                    "mes":  "2026-07",
+                    "numero":  305,
+                    "path":  "docs/nfs/2026-07/NF 305 - LUCIA QUARESMA DA FONSECA.pdf"
+                },
+                {
+                    "cliente":  "ROBERTA LUCIA LEANDRO DA SILVA VIEIRA",
+                    "mes":  "2026-07",
+                    "numero":  306,
+                    "path":  "docs/nfs/2026-07/NF 306 - ROBERTA LUCIA LEANDRO DA SILVA VIEIRA.pdf"
+                },
+                {
+                    "cliente":  "LUIZ FERNANDO ANTONINO",
+                    "mes":  "2026-07",
+                    "numero":  307,
+                    "path":  "docs/nfs/2026-07/NF 307 - LUIZ FERNANDO ANTONINO.pdf"
+                },
+                {
+                    "cliente":  "FLAVIA ANDRADE DE SOUZA ALBUQUERQUE",
+                    "mes":  "2026-07",
+                    "numero":  308,
+                    "path":  "docs/nfs/2026-07/NF 308 - FLAVIA ANDRADE DE SOUZA ALBUQUERQUE.pdf"
+                },
+                {
+                    "cliente":  "NILZA FONTAN DE SOUZA LIMA",
+                    "mes":  "2026-07",
+                    "numero":  309,
+                    "path":  "docs/nfs/2026-07/NF 309 - NILZA FONTAN DE SOUZA LIMA.pdf"
+                },
+                {
+                    "cliente":  "PATRICIA PEREIRA DA ROCHA",
+                    "mes":  "2026-07",
+                    "numero":  310,
+                    "path":  "docs/nfs/2026-07/NF 310 - PATRICIA PEREIRA DA ROCHA.pdf"
+                },
+                {
+                    "cliente":  "PATRICIA PEREIRA DA ROCHA",
+                    "mes":  "2026-07",
+                    "numero":  311,
+                    "path":  "docs/nfs/2026-07/NF 311 -PATRICIA PEREIRA DA ROCHA.pdf"
+                },
+                {
+                    "cliente":  "EDELIA JADE DE SOUZA PINTO",
+                    "mes":  "2026-07",
+                    "numero":  312,
+                    "path":  "docs/nfs/2026-07/NF 312 - EDELIA JADE DE SOUZA PINTO.pdf"
+                },
+                {
+                    "cliente":  "SIDNEY DA MOTTA HADDAD",
+                    "mes":  "2026-07",
+                    "numero":  315,
+                    "path":  "docs/nfs/2026-07/NF 315 - SIDNEY DA MOTTA HADDAD.pdf"
+                },
+                {
+                    "cliente":  "ROSEMARY FERNANDES DA COSTA",
+                    "mes":  "2026-07",
+                    "numero":  316,
+                    "path":  "docs/nfs/2026-07/NF 316 - ROSEMARY FERNANDES DA COSTA.pdf"
+                },
+                {
+                    "cliente":  "RODOLFO HOYOS KAHN",
+                    "mes":  "2026-07",
+                    "numero":  317,
+                    "path":  "docs/nfs/2026-07/NF 317 - RODOLFO HOYOS KAHN.pdf"
+                },
+                {
+                    "cliente":  "MONICA RIBEIRO CARNEIRO LEAL",
+                    "mes":  "2026-07",
+                    "numero":  318,
+                    "path":  "docs/nfs/2026-07/NF 318 - MONICA RIBEIRO CARNEIRO LEAL.pdf"
+                },
+                {
+                    "cliente":  "EDUARDO LUIS PEREIRA RODRIGUES",
+                    "mes":  "2026-07",
+                    "numero":  319,
+                    "path":  "docs/nfs/2026-07/NF 319 - EDUARDO LUIS PEREIRA RODRIGUES.pdf"
+                },
+                {
+                    "cliente":  "MARIA DE FATIMA PINHEIRO DE MATOS",
+                    "mes":  "2026-07",
+                    "numero":  320,
+                    "path":  "docs/nfs/2026-07/NF 320 - MARIA DE FATIMA PINHEIRO DE MATOS.pdf"
+                },
+                {
+                    "cliente":  "MARIA DE FATIMA PINHEIRO DE MATOS",
+                    "mes":  "2026-07",
+                    "numero":  321,
+                    "path":  "docs/nfs/2026-07/NF 321 - MARIA DE FATIMA PINHEIRO DE MATOS.pdf"
+                },
+                {
+                    "cliente":  "ALINE MARIA RIBEIRO BARREIROS",
+                    "mes":  "2026-07",
+                    "numero":  322,
+                    "path":  "docs/nfs/2026-07/NF 322 - ALINE MARIA RIBEIRO BARREIROS.pdf"
+                },
+                {
+                    "cliente":  "FLAVIA ANDRADE DE SOUZA ALBUQUERQUE",
+                    "mes":  "2026-07",
+                    "numero":  323,
+                    "path":  "docs/nfs/2026-07/NF 323 - FLAVIA ANDRADE DE SOUZA ALBUQUERQUE.pdf"
+                },
+                {
+                    "cliente":  "PATRICIA PEREIRA DA ROCHA",
+                    "mes":  "2026-07",
+                    "numero":  324,
+                    "path":  "docs/nfs/2026-07/NF 324 - PATRICIA PEREIRA DA ROCHA.pdf"
+                },
+                {
+                    "cliente":  "DELTAFERREIRACARVANO",
+                    "mes":  "2026-07",
+                    "numero":  325,
+                    "path":  "docs/nfs/2026-07/NF 325 - DELTAFERREIRACARVANO.pdf"
+                }
+            ],
+    "comprovantes":  [
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Aguas do Rio_Maio.pdf",
+                             "nome":  "Aguas do Rio_Maio",
+                             "size":  1209467,
+                             "arquivo":  "Aguas do Rio_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Aluguel_Maio.pdf",
+                             "nome":  "Aluguel_Maio",
+                             "size":  668495,
+                             "arquivo":  "Aluguel_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Chayene_Maio.pdf",
+                             "nome":  "Chayene_Maio",
+                             "size":  474942,
+                             "arquivo":  "Chayene_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Claro_Maio.pdf",
+                             "nome":  "Claro_Maio",
+                             "size":  1135602,
+                             "arquivo":  "Claro_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Contabilidade_Maio.pdf",
+                             "nome":  "Contabilidade_Maio",
+                             "size":  726601,
+                             "arquivo":  "Contabilidade_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/DAS_Maio.pdf",
+                             "nome":  "DAS_Maio",
+                             "size":  709680,
+                             "arquivo":  "DAS_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/FGTS_Maio.pdf",
+                             "nome":  "FGTS_Maio",
+                             "size":  703874,
+                             "arquivo":  "FGTS_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/INSS_Maio.pdf",
+                             "nome":  "INSS_Maio",
+                             "size":  714238,
+                             "arquivo":  "INSS_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/IRRF_Maio.pdf",
+                             "nome":  "IRRF_Maio",
+                             "size":  709672,
+                             "arquivo":  "IRRF_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Jae_Maio.pdf",
+                             "nome":  "Jae_Maio",
+                             "size":  870270,
+                             "arquivo":  "Jae_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Kioto_Maio.pdf",
+                             "nome":  "Kioto_Maio",
+                             "size":  862053,
+                             "arquivo":  "Kioto_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Light_Maio.pdf",
+                             "nome":  "Light_Maio",
+                             "size":  829452,
+                             "arquivo":  "Light_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Naturgy_Maio.pdf",
+                             "nome":  "Naturgy_Maio",
+                             "size":  615527,
+                             "arquivo":  "Naturgy_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Net_Maio.pdf",
+                             "nome":  "Net_Maio",
+                             "size":  1072133,
+                             "arquivo":  "Net_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Paulo_Maio.pdf",
+                             "nome":  "Paulo_Maio",
+                             "size":  431784,
+                             "arquivo":  "Paulo_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Personal_060526.pdf",
+                             "nome":  "Personal_060526",
+                             "size":  983800,
+                             "arquivo":  "Personal_060526.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Personal_180526.pdf",
+                             "nome":  "Personal_180526",
+                             "size":  640918,
+                             "arquivo":  "Personal_180526.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Segurança_Maio.pdf",
+                             "nome":  "Segurança_Maio",
+                             "size":  896363,
+                             "arquivo":  "Segurança_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-05",
+                             "path":  "docs/comprovantes/2026-05/Seguro_Maio.pdf",
+                             "nome":  "Seguro_Maio",
+                             "size":  834960,
+                             "arquivo":  "Seguro_Maio.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/AguasRio_Junho.pdf",
+                             "nome":  "AguasRio_Junho",
+                             "size":  737228,
+                             "arquivo":  "AguasRio_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Aluguel_Junho.pdf",
+                             "nome":  "Aluguel_Junho",
+                             "size":  644220,
+                             "arquivo":  "Aluguel_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Chayene_Junho.pdf",
+                             "nome":  "Chayene_Junho",
+                             "size":  463906,
+                             "arquivo":  "Chayene_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Claro_Junho.pdf",
+                             "nome":  "Claro_Junho",
+                             "size":  1117354,
+                             "arquivo":  "Claro_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Contabilidade_Junho.pdf",
+                             "nome":  "Contabilidade_Junho",
+                             "size":  728566,
+                             "arquivo":  "Contabilidade_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/DAS_Junho.pdf",
+                             "nome":  "DAS_Junho",
+                             "size":  668275,
+                             "arquivo":  "DAS_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/FGTS_Junho.pdf",
+                             "nome":  "FGTS_Junho",
+                             "size":  708902,
+                             "arquivo":  "FGTS_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/INSS_Junho.pdf",
+                             "nome":  "INSS_Junho",
+                             "size":  710960,
+                             "arquivo":  "INSS_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/IRRF_Junho.pdf",
+                             "nome":  "IRRF_Junho",
+                             "size":  687698,
+                             "arquivo":  "IRRF_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Jae_Junho.pdf",
+                             "nome":  "Jae_Junho",
+                             "size":  859712,
+                             "arquivo":  "Jae_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Kioto_Junho.pdf",
+                             "nome":  "Kioto_Junho",
+                             "size":  863279,
+                             "arquivo":  "Kioto_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Light_Junho.pdf",
+                             "nome":  "Light_Junho",
+                             "size":  801665,
+                             "arquivo":  "Light_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Naturgy_Junho.pdf",
+                             "nome":  "Naturgy_Junho",
+                             "size":  614188,
+                             "arquivo":  "Naturgy_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Net_Junho.pdf",
+                             "nome":  "Net_Junho",
+                             "size":  1090259,
+                             "arquivo":  "Net_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Paulo_Junho.pdf",
+                             "nome":  "Paulo_Junho",
+                             "size":  440129,
+                             "arquivo":  "Paulo_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Personal_Junho.pdf",
+                             "nome":  "Personal_Junho",
+                             "size":  957521,
+                             "arquivo":  "Personal_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/RJR1_Junho.pdf",
+                             "nome":  "RJR1_Junho",
+                             "size":  875284,
+                             "arquivo":  "RJR1_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/RJR_Junho.pdf",
+                             "nome":  "RJR_Junho",
+                             "size":  873797,
+                             "arquivo":  "RJR_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Segurança_Junho.pdf",
+                             "nome":  "Segurança_Junho",
+                             "size":  916346,
+                             "arquivo":  "Segurança_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Seguro_Junho.pdf",
+                             "nome":  "Seguro_Junho",
+                             "size":  827663,
+                             "arquivo":  "Seguro_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/Simone_Junho.pdf",
+                             "nome":  "Simone_Junho",
+                             "size":  457393,
+                             "arquivo":  "Simone_Junho.pdf"
+                         },
+                         {
+                             "mes":  "2026-06",
+                             "path":  "docs/comprovantes/2026-06/WhatsApp Installer.exe",
+                             "nome":  "WhatsApp Installer",
+                             "size":  1462848,
+                             "arquivo":  "WhatsApp Installer.exe"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Aguas do Rio.pdf",
+                             "nome":  "Aguas do Rio",
+                             "size":  660800,
+                             "arquivo":  "Aguas do Rio.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Aluguel.pdf",
+                             "nome":  "Aluguel",
+                             "size":  446231,
+                             "arquivo":  "Aluguel.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Chayene.pdf",
+                             "nome":  "Chayene",
+                             "size":  14961,
+                             "arquivo":  "Chayene.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Claro.pdf",
+                             "nome":  "Claro",
+                             "size":  504693,
+                             "arquivo":  "Claro.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Contabilidade.pdf",
+                             "nome":  "Contabilidade",
+                             "size":  507613,
+                             "arquivo":  "Contabilidade.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/DAS.pdf",
+                             "nome":  "DAS",
+                             "size":  543692,
+                             "arquivo":  "DAS.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/FGTS.pdf",
+                             "nome":  "FGTS",
+                             "size":  466709,
+                             "arquivo":  "FGTS.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/INSS.pdf",
+                             "nome":  "INSS",
+                             "size":  537307,
+                             "arquivo":  "INSS.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/IRRF.pdf",
+                             "nome":  "IRRF",
+                             "size":  555740,
+                             "arquivo":  "IRRF.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/JAE.pdf",
+                             "nome":  "JAE",
+                             "size":  579549,
+                             "arquivo":  "JAE.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/KIOTO.pdf",
+                             "nome":  "KIOTO",
+                             "size":  539012,
+                             "arquivo":  "KIOTO.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Light.pdf",
+                             "nome":  "Light",
+                             "size":  535393,
+                             "arquivo":  "Light.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Naturgy.pdf",
+                             "nome":  "Naturgy",
+                             "size":  434827,
+                             "arquivo":  "Naturgy.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Net.pdf",
+                             "nome":  "Net",
+                             "size":  631522,
+                             "arquivo":  "Net.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Paulo.pdf",
+                             "nome":  "Paulo",
+                             "size":  262063,
+                             "arquivo":  "Paulo.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Personal.pdf",
+                             "nome":  "Personal",
+                             "size":  641887,
+                             "arquivo":  "Personal.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/RJR.pdf",
+                             "nome":  "RJR",
+                             "size":  569509,
+                             "arquivo":  "RJR.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Segurança.pdf",
+                             "nome":  "Segurança",
+                             "size":  615957,
+                             "arquivo":  "Segurança.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Seguro.pdf",
+                             "nome":  "Seguro",
+                             "size":  557513,
+                             "arquivo":  "Seguro.pdf"
+                         },
+                         {
+                             "mes":  "2026-07",
+                             "path":  "docs/comprovantes/2026-07/Simone.pdf",
+                             "nome":  "Simone",
+                             "size":  15894,
+                             "arquivo":  "Simone.pdf"
+                         }
+                     ]
+}
