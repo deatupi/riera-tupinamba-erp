@@ -50,6 +50,8 @@ td.num,th.num{text-align:right;white-space:nowrap}
 .linklist input{width:auto}
 .pill{font-size:11px;background:#ecfdf5;color:#065f46;border-radius:99px;padding:1px 8px;font-weight:700}
 .pill.warn{background:#fef3c7;color:#92400e}
+.pbar{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin-top:6px;display:none}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pri));transition:width .2s}
 @media print{header,nav,.noprint{display:none!important}main{max-width:100%}}
 #lock{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--blue) 60%,#2c7a3f 130%);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
 #lock .card{max-width:360px;width:100%;text-align:center}
@@ -59,7 +61,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <body>
 <div id="lock"><div class="card"><img src="logo.png" alt="Biofisio — Dinâmica do corpo" style="height:72px;max-width:100%"><p class="hint">Mini ERP Financeiro • acesso restrito</p><input id="lgU" placeholder="Usuário" autocomplete="username"><input id="lgP" type="password" placeholder="Senha" autocomplete="current-password"><button class="btn btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button><p class="hint" id="lgE"></p></div></div>
 <header>
-<div><div style="display:flex;align-items:center;gap:12px"><img src="logo.png" alt="Biofisio" style="height:52px"><div><h1>Mini ERP Financeiro <small>BIOFISIO • Riera e Tupinamba Dinâmica do Corpo LTDA • CREFITO-RE/2440-RJ</small></h1><span id="roleBadge" class="hint" style="color:var(--blue)"></span></div></div></div>
+<div><div style="display:flex;align-items:center;gap:12px"><img src="logo.png" alt="Biofisio" style="height:52px"><div><h1>Mini ERP Financeiro <small>BIOFISIO • Riera e Tupinamba Dinâmica do Corpo LTDA • CREFITO-RE/2440-RJ</small></h1><span id="roleBadge" class="hint" style="color:var(--blue)"></span> <span id="syncB" class="hint"></span></div></div></div>
 <div class="noprint"><label style="color:var(--mut)">Competência</label>
 <select id="mesSel" onchange="setMes(this.value)" style="min-width:160px"></select>
 <button class="btn btn-g" style="padding:6px 10px;margin-top:6px" onclick="logout()" title="Sair">🔒 Sair</button></div>
@@ -128,7 +130,11 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <button class="btn btn-s" onclick="backup()">💾 Backup (JSON)</button>
 <button class="btn btn-g" onclick="document.getElementById('restFile').click()">♻ Restaurar backup</button><input type="file" id="restFile" accept=".json" style="display:none" onchange="restore(this)">
 <button class="btn btn-d" onclick="zerar()">🗑 Apagar lançamentos locais</button></div>
-<p class="hint">Arquivos em <b>docs/</b> fazem parte do repositório online (permanentes). Anexos subidos pelo navegador ficam salvos localmente (por navegador). Faça backup mensal.</p></div>
+<p class="hint">Arquivos em <b>docs/</b> fazem parte do repositório online (permanentes). Anexos subidos pelo navegador ficam salvos localmente (por navegador). Faça backup mensal.</p>
+<h3 style="margin-top:14px">🔗 Conexão com o Drive (cofre compartilhado)</h3>
+<p class="hint">Cole a URL do App da Web (script.google.com — ver <b>apps-script/Code.gs</b> no repo). Com ela, arquivos e lançamentos valem para ADM e gestor. Vazia = modo local.</p>
+<div class="row"><div style="flex:1"><input id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec"></div><div><button class="btn btn-p" onclick="saveSync()">Salvar</button></div><div><button class="btn btn-g" onclick="testSync()">Testar</button></div></div>
+<p class="hint" id="syncStat"></p></div>
 </section>
 </main>
 <div class="modal" id="mLanc"><div class="box">
@@ -141,28 +147,24 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div><label>Descrição</label><input id="fDesc" placeholder="Ex: Recebimento mensalidade / Pagamento Light"></div>
 <div class="row"><div style="flex:1"><label>Valor (R$)</label><input id="fValor" type="number" step="0.01" min="0"></div>
 <div style="flex:1"><label>Forma (entradas)</label><select id="fForma"></select></div></div>
-<div><label>Anexo direto (opcional)</label><input id="fFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
-<div><label>Link do Drive (opcional — vale para todos)</label><input id="fDrive" placeholder="cole o link de compartilhamento do PDF no Drive"></div>
+<div><label>Anexo direto (opcional)</label><input id="fFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"><div class="pbar" id="fBarW"><i id="fBar"></i></div></div>
 <div id="linkBox" style="margin-top:8px"><label>Vincular comprovantes do mês (saídas) — abre junto no 👁</label><div class="linklist" id="linkList"></div></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveLanc()">Salvar</button><button class="btn btn-g" onclick="closeM('mLanc')">Cancelar</button></div>
 </div></div>
 <div class="modal" id="mNF"><div class="box"><h3>Nota Fiscal Emitida</h3><input type="hidden" id="nId">
 <div class="row"><div><label>Número</label><input id="nNum" type="number"></div><div style="flex:1"><label>Cliente</label><input id="nCli"></div></div>
 <div class="row"><div style="flex:1"><label>Data emissão</label><input id="nData" type="date"></div><div style="flex:1"><label>Valor (R$)</label><input id="nValor" type="number" step="0.01"></div></div>
-<div><label>Arquivo PDF da NF</label><input id="nFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
-<div><label>Link do Drive (opcional — vale para todos)</label><input id="nDrive" placeholder="suba o PDF no Drive e cole o link aqui"></div>
+<div><label>Arquivo PDF da NF</label><input id="nFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"><div class="pbar" id="nBarW"><i id="nBar"></i></div></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveNF()">Salvar NF</button><button class="btn btn-g" onclick="closeM('mNF')">Cancelar</button></div></div></div>
 <div class="modal" id="mComp"><div class="box"><h3>Comprovante de Pagamento</h3><input type="hidden" id="cId">
 <div><label>Fornecedor / Descrição</label><input id="cDesc" placeholder="Ex: Light, Aluguel, DAS..."></div>
 <div class="row"><div style="flex:1"><label>Mês competência</label><select id="cMes"></select></div><div style="flex:1"><label>Valor (R$) — opcional</label><input id="cValor" type="number" step="0.01"></div></div>
-<div><label>Arquivo do comprovante</label><input id="cFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
-<div><label>Link do Drive (opcional — vale para todos)</label><input id="cDrive" placeholder="suba o PDF no Drive e cole o link aqui"></div>
+<div><label>Arquivo do comprovante</label><input id="cFile" type="file" accept=".pdf,.jpg,.jpeg,.png"><div class="pbar" id="cBarW"><i id="cBar"></i></div></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveComp()">Salvar</button><button class="btn btn-g" onclick="closeM('mComp')">Cancelar</button></div></div></div>
 <div class="modal" id="mBal"><div class="box"><h3>Balancete / Demonstrativo da Contadora</h3><input type="hidden" id="bId">
 <div><label>Descrição</label><input id="bDesc" placeholder="Ex: Demonstração do Resultado assinada, PGDASD..."></div>
 <div class="row"><div style="flex:1"><label>Mês competência</label><select id="bMes"></select></div></div>
-<div><label>Arquivo PDF assinado</label><input id="bFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
-<div><label>Link do Drive (opcional — vale para todos)</label><input id="bDrive" placeholder="suba o PDF no Drive e cole o link aqui"></div>
+<div><label>Arquivo PDF assinado</label><input id="bFile" type="file" accept=".pdf,.jpg,.jpeg,.png"><div class="pbar" id="bBarW"><i id="bBar"></i></div></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveBal()">Salvar</button><button class="btn btn-g" onclick="closeM('mBal')">Cancelar</button></div></div></div>
 <div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
 <script>
@@ -189,6 +191,7 @@ const enc=s=>encodeURI(s||'');
 function seed(){
  const L=(mes,dia,tipo,cat,sub,desc,valor,forma)=>({id:uid(),mes,data:mes+'-'+dia,tipo,categoria:cat,subitem:sub,descricao:desc,valor,forma:forma||'',links:[],anexoNome:'',anexoTipo:'',anexoDataUrl:''});
  return {
+ updatedAt:0,
  saldos:{'2026-05':4043.10,'2026-06':5709.88,'2026-07':3817.67},
  tiposEntrada:['Dinheiro','Cheque','Crédito Conta'],
  categorias:{'TRIBUTOS':['DAS - SIMPLES NACIONAL','INSS','IRRF S/ALUGUEL','FGTS'],'TELEFONIA':['INTERNET/TELEFONE FIXO','TELEFONIA MÓVEL'],'DESPESAS DE MANUTENÇÃO':['PRODUTOS PARA PISCINA','PRODUTOS DE LIMPEZA'],'IMÓVEL':['AGUAS DO RIO','NATURGY','ALUGUEL','LIGHT','SEGURO IMÓVEL E EQUIPAMENTOS'],'DESPESAS PROFISSIONAIS':['PAULO MARCIO RIERA MACHADO - FISIOTERAPEUTA','SIMONE FLORENCIO - AUX LIMPEZA','CHAYENE FLORENCIO - AUX LIMPEZA','VALE TRANSPORTE - JÁ É'],'DESPESAS ADMINISTRATIVAS':['CONTABILIDADE','COLETA DE RESÍDUOS ESPECIAIS','SEGURANÇA']},
@@ -264,7 +267,21 @@ function seed(){
  };
 }
 function load(){try{DB=JSON.parse(localStorage.getItem(KEY));}catch(e){DB=null} if(!DB||!DB.lancamentos){DB=seed();save();} DB.lancamentos.forEach(l=>{if(!l.links)l.links=[];});}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){alert('Armazenamento local cheio! O anexo é grande demais. Prefira vincular arquivos da pasta docs/ do repositório.');}}
+function save(){saveLocal();syncPush();}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){alert('Armazenamento local cheio!');}}
+
+// --- SINCRONIZAÇÃO (Drive deles como cofre — via Apps Script, sem login/token) ---
+const SYNC_FIXO=''; // o ADM cola aqui a URL do App da Web (ou em ⚙️) — vazio = modo local
+let SYNC_URL=localStorage.getItem('erp_sync_url')||SYNC_FIXO;
+function syncBadge(s){const e=$('syncB');if(!e)return;e.textContent=s==='online'?'🟢 sincronizado':s==='sync'?'🔄 sincronizando...':s==='err'?'🔴 falha de rede':'⚪ só neste aparelho';}
+let _syncT=null;
+function syncPush(){if(!SYNC_URL)return;clearTimeout(_syncT);_syncT=setTimeout(syncPushNow,1500);}
+async function syncPushNow(){if(!SYNC_URL)return;try{DB.updatedAt=Date.now();saveLocal();await fetch(SYNC_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',data:DB})});syncBadge('online');}catch(e){syncBadge('err');}}
+async function bootSync(){if(!SYNC_URL){syncBadge('local');return;}syncBadge('sync');try{const r=await fetch(SYNC_URL);const j=await r.json();if(j.ok&&j.data){if((j.data.updatedAt||0)>(DB.updatedAt||0)){DB=j.data;DB.lancamentos.forEach(l=>{if(!l.links)l.links=[];});saveLocal();render();}else if((DB.updatedAt||0)>(j.data.updatedAt||0)){syncPushNow();}syncBadge('online');}else syncBadge('local');}catch(e){syncBadge('local');}}
+function saveSync(){const v=$('syncUrl').value.trim();localStorage.setItem('erp_sync_url',v);SYNC_URL=v;$('syncStat').textContent=v?'✅ Conexão salva. Recarregando...':'⚪ Modo local.';if(v)setTimeout(()=>location.reload(),800);}
+async function testSync(){const u=$('syncUrl').value.trim()||SYNC_URL;if(!u)return alert('Cole a URL primeiro.');$('syncStat').textContent='🔄 testando...';try{const r=await fetch(u);const j=await r.json();$('syncStat').textContent=j.ok?'✅ Conectado ao Drive!':'❌ Resposta inválida: '+(j.error||'');}catch(e){$('syncStat').textContent='❌ Não alcançou. Confira a URL e a implantação (acesso: qualquer pessoa).';}}
+// Upload com barrinha: o arquivo sobe para o Drive, volta só o ID (leve, vale p/ todos)
+function syncUpload(kind,mes,file,barId){return new Promise((resolve,reject)=>{const w=$(barId+'W'),bar=$(barId);w.style.display='block';bar.style.width='0%';const fr=new FileReader();fr.onload=()=>{const b64=String(fr.result).split(',')[1];const xhr=new XMLHttpRequest();xhr.open('POST',SYNC_URL);xhr.setRequestHeader('Content-Type','text/plain;charset=utf-8');xhr.upload.onprogress=e=>{if(e.lengthComputable)bar.style.width=Math.round(e.loaded/e.total*100)+'%';};xhr.onload=()=>{w.style.display='none';try{const j=JSON.parse(xhr.responseText);j.ok&&j.id?resolve(j.id):reject(new Error((j&&j.error)||'falha no envio'));}catch(err){reject(err);}};xhr.onerror=()=>{w.style.display='none';reject(new Error('rede'));};xhr.send(JSON.stringify({action:'upload',kind,mes,name:file.name,mime:file.type||'application/pdf',b64}));};fr.readAsDataURL(file);});}
 async function loadManifest(){try{const r=await fetch('docs/manifest.json');if(r.ok){REPO=await r.json();}}catch(e){} renderDocInfo();}
 function renderDocInfo(){$('docInfo').innerHTML=(REPO.nfs.length||REPO.balancetes.length)?`✅ <b>${REPO.nfs.length}</b> NFs, <b>${REPO.comprovantes.length}</b> comprovantes e <b>${REPO.balancetes.length}</b> balancete(s) hospedados online (pasta <b>docs/</b>). Clique no 👁 de qualquer lançamento de saída para ver os documentos.`:`⚠️ Manifesto docs/ não carregado (normal ao abrir o arquivo localmente). No GitHub Pages os documentos aparecem automaticamente.`;$('pillNF').textContent=REPO.nfs.filter(n=>n.mes===MES).length||'';$('pillC').textContent=REPO.comprovantes.filter(c=>c.mes===MES).length||'';$('pillB').textContent=(REPO.balancetes.filter(b=>b.mes===MES).length+(DB.balExtra||[]).filter(b=>b.mes===MES).length)||'';}
 
@@ -285,8 +302,8 @@ function viewDocs(titulo,docs){if(!docs.length)return alert('Sem documentos vinc
 function showDoc(i){const d=window._docs[i];document.querySelectorAll('#vTabs button').forEach((b,j)=>b.classList.toggle('on',j===i));const b=$('vBody');const isImg=(d.tipo||'').includes('image')||/\.(jpg|jpeg|png)$/i.test(d.url||'');b.innerHTML=isImg?`<img src="${d.url}" style="max-width:100%;border-radius:8px">`:`<iframe src="${d.url}" style="width:100%;height:60vh;border:0"></iframe>`;$('vDown').href=d.url;}
 function fileToDataUrl(inp,cb){const f=inp.files[0];if(!f)return cb(null);if(f.size>2.5*1024*1024){if(!confirm('Arquivo com '+(f.size/1048576).toFixed(1)+'MB. Pode lotar o armazenamento local. Continuar?'))return cb(null);}const r=new FileReader();r.onload=()=>cb({nome:f.name,tipo:f.type,url:r.result});r.readAsDataURL(f);}
 
-// Converte link de compartilhamento do Drive em embed para o visualizador
-function drivePreview(u){if(!u)return '';let m=String(u).match(/\/d\/([a-zA-Z0-9_-]+)/);if(!m)m=String(u).match(/[?&]id=([a-zA-Z0-9_-]+)/);if(m)return `https://drive.google.com/file/d/${m[1]}/preview`;return u;}
+// Converte ID ou link do Drive em embed para o visualizador
+function drivePreview(u){if(!u)return '';u=String(u).trim();if(/^[a-zA-Z0-9_-]{20,}$/.test(u))return `https://drive.google.com/file/d/${u}/preview`;let m=u.match(/\/d\/([a-zA-Z0-9_-]+)/);if(!m)m=u.match(/[?&]id=([a-zA-Z0-9_-]+)/);if(m)return `https://drive.google.com/file/d/${m[1]}/preview`;return u;}
 function docsOf(o){const d=[];if(o.arquivoDataUrl)d.push({nome:o.arquivoNome||'Arquivo',tipo:o.arquivoTipo,url:o.arquivoDataUrl});if(o.drive)d.push({nome:'📁 Ver no Drive',tipo:'drive',url:drivePreview(o.drive)});return d;}
 
 function totais(mes){const ls=DB.lancamentos.filter(l=>l.mes===mes);const e=ls.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+ +l.valor,0);const s=ls.filter(l=>l.tipo==='saida').reduce((s,l)=>s+ +l.valor,0);const ant=+(DB.saldos[mes]||0);return{ent:e,sai:s,ant,fin:ant+e-s};}
@@ -324,20 +341,24 @@ document.addEventListener('change',e=>{if(e.target&&e.target.id==='fCat'&&$('fTi
 function updSub(){const subs=DB.categorias[$('fCat').value]||[];$('dlSub').innerHTML=subs.map(x=>`<option value="${x}">`).join('');}
 function curLancDraft(){return{categoria:$('fCat').value,subitem:$('fSub').value,descricao:$('fDesc').value,mes:($('fData').value||MES+'-10').slice(0,7)};}
 function refreshLinks(){if($('fTipo').value!=='saida')return;const d=curLancDraft();const comps=allComps(d.mes);$('linkList').innerHTML=comps.length?comps.map((c,i)=>{const key=c.path||c.id;const checked=(window._editLinks||[]).includes(key)||autoMatch(d,c);return `<label><input type="checkbox" data-k="${key}" ${checked?'checked':''}> 📄 ${compDesc(c)} ${c.orig==='repo'?'<span class="pill">online</span>':'<span class="pill warn">local</span>'}</label>`;}).join(''):'<span class="hint">Nenhum comprovante neste mês ainda. Suba na aba 📎.</span>';}
-function openLanc(){window._editLinks=[];$('mLancT').textContent='Novo lançamento';$('fId').value='';$('fData').value=MES+'-10';$('fTipo').value='entrada';updCat();$('fSub').value='';$('fDesc').value='';$('fValor').value='';$('fFile').value='';$('fDrive').value='';$('mLanc').classList.add('open');}
-function editLanc(id){const l=DB.lancamentos.find(x=>x.id===id);window._editLinks=[...(l.links||[])];$('mLancT').textContent='Editar lançamento';$('fId').value=l.id;$('fData').value=l.data;$('fTipo').value=l.tipo;updCat();$('fCat').value=l.categoria;if(l.tipo==='saida'){$('fSub').value=l.subitem||'';refreshLinks();}$('fDesc').value=l.descricao||'';$('fValor').value=l.valor;$('fFile').value='';$('fDrive').value=l.drive||'';$('mLanc').classList.add('open');}
+function openLanc(){window._editLinks=[];$('mLancT').textContent='Novo lançamento';$('fId').value='';$('fData').value=MES+'-10';$('fTipo').value='entrada';updCat();$('fSub').value='';$('fDesc').value='';$('fValor').value='';$('fFile').value='';$('mLanc').classList.add('open');}
+function editLanc(id){const l=DB.lancamentos.find(x=>x.id===id);window._editLinks=[...(l.links||[])];$('mLancT').textContent='Editar lançamento';$('fId').value=l.id;$('fData').value=l.data;$('fTipo').value=l.tipo;updCat();$('fCat').value=l.categoria;if(l.tipo==='saida'){$('fSub').value=l.subitem||'';refreshLinks();}$('fDesc').value=l.descricao||'';$('fValor').value=l.valor;$('fFile').value='';$('mLanc').classList.add('open');}
 function delLanc(id){if(!confirm('Excluir lançamento?'))return;DB.lancamentos=DB.lancamentos.filter(x=>x.id!==id);save();render();}
-function saveLanc(){const id=$('fId').value;const data=$('fData').value||(MES+'-10');const mes=data.slice(0,7);const obj={id:id||uid(),mes,data,tipo:$('fTipo').value,categoria:$('fCat').value,subitem:$('fSub').value.trim(),descricao:$('fDesc').value.trim(),valor:parseFloat($('fValor').value||0),forma:$('fForma').value||'',drive:$('fDrive').value.trim(),links:[...document.querySelectorAll('#linkList input:checked')].map(i=>i.dataset.k)};
+function saveLanc(){const id=$('fId').value;const data=$('fData').value||(MES+'-10');const mes=data.slice(0,7);const obj={id:id||uid(),mes,data,tipo:$('fTipo').value,categoria:$('fCat').value,subitem:$('fSub').value.trim(),descricao:$('fDesc').value.trim(),valor:parseFloat($('fValor').value||0),forma:$('fForma').value||'',drive:'',links:[...document.querySelectorAll('#linkList input:checked')].map(i=>i.dataset.k)};
  if(!(obj.valor>0))return alert('Informe o valor.');
  const done=(anx)=>{if(anx){obj.anexoNome=anx.nome;obj.anexoTipo=anx.tipo;obj.anexoDataUrl=anx.url;}else if(id){const old=DB.lancamentos.find(x=>x.id===id);obj.anexoNome=old.anexoNome;obj.anexoTipo=old.anexoTipo;obj.anexoDataUrl=old.anexoDataUrl;}else{obj.anexoNome='';obj.anexoTipo='';obj.anexoDataUrl='';}
  if(id){DB.lancamentos[DB.lancamentos.findIndex(x=>x.id===id)]=obj;}else DB.lancamentos.push(obj);
  if(obj.tipo==='saida'&&obj.subitem&&DB.categorias[obj.categoria]&&!DB.categorias[obj.categoria].includes(obj.subitem))DB.categorias[obj.categoria].push(obj.subitem);
  if(!DB.saldos[mes])DB.saldos[mes]=0;MES=mes;save();closeM('mLanc');render();};
+ const ff=$('fFile').files[0];
+ if(ff&&SYNC_URL){syncUpload('anexos',mes,ff,'fBar').then(id=>{obj.drive=id;done(null);}).catch(e=>alert('❌ Falha no envio: '+e.message));return;}
  fileToDataUrl($('fFile'),done);}
 function exportCSV(){const ls=DB.lancamentos.filter(l=>l.mes===MES);let c='data;tipo;categoria;subitem;descricao;valor;forma;docs\n';ls.forEach(l=>c+=`${l.data};${l.tipo};${l.categoria};${l.subitem};${(l.descricao||'').replace(/;/g,',')};${l.valor};${l.forma};${(l.links||[]).join('|')}\n`);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download=`fluxo-${MES}.csv`;a.click();}
 
-function openNF(){$('nId').value='';$('nNum').value='';$('nCli').value='';$('nData').value=MES+'-10';$('nValor').value='';$('nFile').value='';$('nDrive').value='';$('mNF').classList.add('open');}
-function saveNF(){const num=parseInt($('nNum').value||0);if(!num)return alert('Informe o número da NF.');const obj={id:uid(),mes:($('nData').value||MES+'-10').slice(0,7),numero:num,cliente:$('nCli').value.trim(),data:$('nData').value,valor:parseFloat($('nValor').value||0),drive:$('nDrive').value.trim()};
+function openNF(){$('nId').value='';$('nNum').value='';$('nCli').value='';$('nData').value=MES+'-10';$('nValor').value='';$('nFile').value='';$('mNF').classList.add('open');}
+function saveNF(){const num=parseInt($('nNum').value||0);if(!num)return alert('Informe o número da NF.');const mes=($('nData').value||MES+'-10').slice(0,7);const obj={id:uid(),mes,numero:num,cliente:$('nCli').value.trim(),data:$('nData').value,valor:parseFloat($('nValor').value||0),drive:''};
+ const nf=$('nFile').files[0];
+ if(nf&&SYNC_URL){syncUpload('nfs',mes,nf,'nBar').then(id=>{obj.drive=id;DB.nfsExtra.push(obj);save();closeM('mNF');render();}).catch(e=>alert('❌ Falha no envio: '+e.message));return;}
  fileToDataUrl($('nFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}
  DB.nfsExtra.push(obj);save();closeM('mNF');render();});}
 function viewNFExtra(id){const n=DB.nfsExtra.find(x=>x.id===id);const d=docsOf(n);if(!d.length)return alert('Sem arquivo: suba o PDF ou cole o link do Drive.');viewDocs('NF '+n.numero+' — '+n.cliente,d);}
@@ -350,9 +371,12 @@ function renderNF(){const q=($('buscaNF').value||'').toLowerCase();
  $('totNF').textContent=`${repo.length} nota(s) online + ${extra.length} avulsa(s)`;}
 function delNF(id){if(!confirm('Excluir NF?'))return;DB.nfsExtra=DB.nfsExtra.filter(x=>x.id!==id);save();render();}
 
-function openComp(){const ms=mesesDisponiveis();$('cMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('cId').value='';$('cDesc').value='';$('cValor').value='';$('cFile').value='';$('cDrive').value='';$('mComp').classList.add('open');}
-function saveComp(){const obj={id:uid(),mes:$('cMes').value,descricao:$('cDesc').value.trim(),valor:parseFloat($('cValor').value||0),drive:$('cDrive').value.trim()};
- if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('cFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}DB.compExtra.push(obj);save();closeM('mComp');render();});}
+function openComp(){const ms=mesesDisponiveis();$('cMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('cId').value='';$('cDesc').value='';$('cValor').value='';$('cFile').value='';$('mComp').classList.add('open');}
+function saveComp(){const obj={id:uid(),mes:$('cMes').value,descricao:$('cDesc').value.trim(),valor:parseFloat($('cValor').value||0),drive:''};
+ if(!obj.descricao)return alert('Informe a descrição.');
+ const cf=$('cFile').files[0];
+ if(cf&&SYNC_URL){syncUpload('comprovantes',obj.mes,cf,'cBar').then(id=>{obj.drive=id;DB.compExtra.push(obj);save();closeM('mComp');render();}).catch(e=>alert('❌ Falha no envio: '+e.message));return;}
+ fileToDataUrl($('cFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}DB.compExtra.push(obj);save();closeM('mComp');render();});}
 function viewCompExtra(id){const c=DB.compExtra.find(x=>x.id===id);const d=docsOf(c);if(!d.length)return alert('Sem arquivo: suba o PDF ou cole o link do Drive.');viewDocs(c.descricao,d);}
 function renderComp(){const q=($('buscaC').value||'').toLowerCase();
  const repo=REPO.comprovantes.filter(c=>c.mes===MES&&(c.nome).toLowerCase().includes(q));
@@ -365,9 +389,12 @@ function renderComp(){const q=($('buscaC').value||'').toLowerCase();
 function delComp(id){if(!confirm('Excluir comprovante?'))return;DB.compExtra=DB.compExtra.filter(x=>x.id!==id);save();render();}
 
 // --- BALANCETES ---
-function openBal(){const ms=mesesDisponiveis();$('bMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('bId').value='';$('bDesc').value='';$('bFile').value='';$('bDrive').value='';$('mBal').classList.add('open');}
-function saveBal(){const obj={id:uid(),mes:$('bMes').value,descricao:$('bDesc').value.trim(),drive:$('bDrive').value.trim()};
- if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('bFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}DB.balExtra.push(obj);save();closeM('mBal');render();});}
+function openBal(){const ms=mesesDisponiveis();$('bMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('bId').value='';$('bDesc').value='';$('bFile').value='';$('mBal').classList.add('open');}
+function saveBal(){const obj={id:uid(),mes:$('bMes').value,descricao:$('bDesc').value.trim(),drive:''};
+ if(!obj.descricao)return alert('Informe a descrição.');
+ const bf=$('bFile').files[0];
+ if(bf&&SYNC_URL){syncUpload('balancetes',obj.mes,bf,'bBar').then(id=>{obj.drive=id;DB.balExtra.push(obj);save();closeM('mBal');render();}).catch(e=>alert('❌ Falha no envio: '+e.message));return;}
+ fileToDataUrl($('bFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}DB.balExtra.push(obj);save();closeM('mBal');render();});}
 function viewBalExtra(id){const b=DB.balExtra.find(x=>x.id===id);const d=docsOf(b);if(!d.length)return alert('Sem arquivo: suba o PDF ou cole o link do Drive.');viewDocs(b.descricao,d);}
 function renderBal(){const q=($('buscaB').value||'').toLowerCase();
  const repo=(REPO.balancetes||[]).filter(b=>b.mes===MES&&(b.nome+' '+(b.desc||'')).toLowerCase().includes(q));
@@ -378,7 +405,7 @@ function renderBal(){const q=($('buscaB').value||'').toLowerCase();
  $('totBal').textContent=`${repo.length} online + ${extra.length} avulso(s) em ${MES_N[MES]||MES}`;}
 function delBal(id){if(!confirm('Excluir balancete?'))return;DB.balExtra=DB.balExtra.filter(x=>x.id!==id);save();render();}
 
-function renderConf(){$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
+function renderConf(){if($('syncUrl')&&document.activeElement!==$('syncUrl'))$('syncUrl').value=SYNC_URL;$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
  $('listCat').innerHTML=Object.entries(DB.categorias).map(([c,subs])=>`<div style="padding:8px 0;border-bottom:1px solid #f1f5f9"><b>${c}</b> <button class="btn btn-d noprint" style="padding:2px 8px" onclick="delCat('${c}')">✕</button><div class="hint">${subs.join(' • ')||'sem subitens'}</div></div>`).join('');}
 function addTE(){const v=$('newTE').value.trim();if(!v)return;DB.tiposEntrada.push(v);$('newTE').value='';save();render();}
 function delTE(i){DB.tiposEntrada.splice(i,1);save();render();}
@@ -388,7 +415,7 @@ function backup(){const a=document.createElement('a');a.href=URL.createObjectURL
 function restore(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{DB=JSON.parse(r.result);save();render();alert('Backup restaurado!');};r.readAsText(f);}
 function zerar(){if(!confirm('Apagar lançamentos locais? (docs/ online não são afetados)'))return;localStorage.removeItem(KEY);DB=seed();save();render();}
 
-load();render();updCat();loadManifest();
+load();render();updCat();loadManifest();bootSync();
 </script>
 </body>
 </html>

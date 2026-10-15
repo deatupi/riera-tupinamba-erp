@@ -27,16 +27,20 @@ Ative o Pages (abaixo) e acesse: `https://deatupi.github.io/riera-tupinamba-erp/
 Para adicionar novos PDFs: suba o arquivo para a pasta do mês e regenere o `manifest.json`
 (ou suba pela interface — fica salvo no navegador).
 
-## 📎 Arquivos novos (rotina simples com Drive)
+## 📎 Arquivos novos (gestor só anexa e vê subir)
 
-1. Suba o PDF no **Google Drive** (pasta do mês, como já fazem)
-2. Clique em **Compartilhar → Qualquer pessoa com o link**
-3. No ERP, ao lançar, cole o link no campo **"Link do Drive"**
-4. O 👁 mostra o documento **dentro do sistema** (NF, comprovante, balancete ou saída)
+Com o Drive conectado (⚙️ → 🔗 Conexão, 1x), o gestor só **escolhe o arquivo**:
+barra de progresso → cai na pasta `ERP Biofisio` do Drive de vocês →
+**aparece no 👁 do fluxo de caixa para todo mundo**. Sem link para colar,
+sem token, sem GitHub. Os lançamentos também ficam compartilhados
+(ADM e gestor veem o mesmo fluxo).
 
-O GitHub (`docs/`) segue como **acervo permanente** das 136 NFs + 61 comprovantes +
-4 balancetes já publicados — espaço de sobra. Arquivos do mês corrente podem ir
-só no Drive; no fechamento, a gente arquiva no `docs/`.
+Conexão (1x, conta Google da clínica): `apps-script/Code.gs` →
+script.google.com → colar → Executar `setup` → Implantar como
+**App da Web (Executar como: eu / Acesso: qualquer pessoa)** →
+colar a URL no ERP.
+
+## 🗂 Acervo permanente (GitHub `docs/`)
 
 ## 🔒 Privacidade
 
