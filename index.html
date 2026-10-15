@@ -59,7 +59,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 </style>
 </head>
 <body>
-<div id="lock"><div class="card"><img src="logo.png" alt="Biofisio — Dinâmica do corpo" style="height:72px;max-width:100%"><p class="hint">Mini ERP Financeiro • acesso restrito</p><input id="lgU" placeholder="Usuário" autocomplete="username"><input id="lgP" type="password" placeholder="Senha" autocomplete="current-password"><button class="btn btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button><p class="hint" id="lgE"></p></div></div>
+<div id="lock"><div class="card"><form onsubmit="doLogin();return false"><img src="logo.png" alt="Biofisio — Dinâmica do corpo" style="height:72px;max-width:100%"><p class="hint">Mini ERP Financeiro • acesso restrito</p><input id="lgU" name="username" placeholder="Usuário" autocomplete="username"><input id="lgP" name="password" type="password" placeholder="Senha" autocomplete="current-password"><label class="hint" style="display:flex;gap:6px;align-items:center;justify-content:center;font-weight:400"><input type="checkbox" id="lgK" checked style="width:auto;margin:0"> Manter conectado neste aparelho</label><button class="btn btn-p" type="submit" style="width:100%;margin-top:8px">Entrar</button><p class="hint" id="lgE"></p></form></div></div>
 <header>
 <div><div style="display:flex;align-items:center;gap:12px"><img src="logo.png" alt="Biofisio" style="height:52px"><div><h1>Mini ERP Financeiro <small>BIOFISIO • Riera e Tupinamba Dinâmica do Corpo LTDA • CREFITO-RE/2440-RJ</small></h1><span id="roleBadge" class="hint" style="color:var(--blue)"></span> <span id="syncB" class="hint"></span></div></div></div>
 <div class="noprint"><label style="color:var(--mut)">Competência</label>
@@ -166,18 +166,20 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="toolbar"><button class="btn btn-p" onclick="saveBal()">Salvar</button><button class="btn btn-g" onclick="closeM('mBal')">Cancelar</button></div></div></div>
 <div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
 <script>
-// --- ACESSO (barreira client-side: afasta curiosos; não é segurança real) ---
+// --- ACESSO (bloco isolado + hash próprio: funciona em qualquer navegador) ---
 const USERS=[
  {u:'deatupi@gmail.com',h:'feb04c6eea80b209d83b8be9cc1729ac35b65c2a02c261f5d7155817cb357f18',role:'adm'},
  {u:'atendimento@biofisio.com',h:'204151860f51e39043c83b79dba6ae078a1029506109fe638195e694f275003c',role:'gestor'}
 ];
-async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function doLogin(){const u=$('lgU').value.trim().toLowerCase(),p=$('lgP').value;const f=USERS.find(x=>x.u===u);if(f&&(await sha(p))===f.h){localStorage.setItem('erp_last_user',u);sessionStorage.setItem('erp_ok','1');sessionStorage.setItem('erp_role',f.role);sessionStorage.setItem('erp_user',f.u);applyRole();$('lock').style.display='none';}else{$('lgE').textContent='❌ Usuário ou senha inválidos.';}}
-function applyRole(){const r=sessionStorage.getItem('erp_role')||'gestor';const adm=r==='adm';$('dadosCard').style.display=adm?'block':'none';$('roleBadge').textContent=(adm?'👑 ADM':'🧑‍💼 GESTOR')+' • '+sessionStorage.getItem('erp_user');}
-function logout(){sessionStorage.removeItem('erp_ok');sessionStorage.removeItem('erp_role');location.reload();}
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&$('lock').style.display!=='none')doLogin();});
-if(sessionStorage.getItem('erp_ok')==='1'){$('lock').style.display='none';applyRole();}
-const _lu=localStorage.getItem('erp_last_user');if(_lu){$('lgU').value=_lu;$('lgP').focus();}
+function sha256js(ascii){function rr(v,a){return(v>>>a)|(v<<(32-a));}var maxWord=Math.pow(2,32),result='';var words=[],asciiBitLength=ascii.length*8;var hash=sha256js.h=sha256js.h||[],k=sha256js.k=sha256js.k||[];var primeCounter=k.length,isComposite={};for(var candidate=2;primeCounter<64;candidate++){if(!isComposite[candidate]){for(var i=0;i<313;i+=candidate)isComposite[i]=candidate;hash[primeCounter]=(Math.pow(candidate,.5)*maxWord)|0;k[primeCounter++]=(Math.pow(candidate,1/3)*maxWord)|0;}}ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';for(var i=0;i<ascii.length;i++){var j=ascii.charCodeAt(i);if(j>>8)return;words[i>>2]|=j<<((3-i)%4)*8;}words[words.length]=(asciiBitLength/maxWord)|0;words[words.length]=asciiBitLength;for(var j=0;j<words.length;){var w=words.slice(j,j+=16),oldHash=hash;hash=hash.slice(0,8);for(var i=0;i<64;i++){var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];var temp1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var temp2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));hash=[(temp1+temp2)|0].concat(hash);hash[4]=(hash[4]+temp1)|0;}for(var i=0;i<8;i++)hash[i]=(hash[i]+oldHash[i])|0;}for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(hash[i]>>>(j*8))&255;result+=((b<16)?'0':'')+b.toString(16);}}return result;}
+async function sha(s){try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}}catch(e){}return sha256js(unescape(encodeURIComponent(s)));}
+const sessGet=k=>sessionStorage.getItem(k)||localStorage.getItem(k);
+const sessSet=(k,v,stay)=>{sessionStorage.setItem(k,v);if(stay)localStorage.setItem(k,v);};
+async function doLogin(){try{const u=document.getElementById('lgU').value.trim().toLowerCase(),p=document.getElementById('lgP').value;if(!u||!p){document.getElementById('lgE').textContent='Digite usuário e senha.';return;}const f=USERS.find(x=>x.u===u);const h=await sha(p);if(f&&h===f.h){localStorage.setItem('erp_last_user',u);const stay=document.getElementById('lgK').checked;sessSet('erp_ok','1',stay);sessSet('erp_role',f.role,stay);sessSet('erp_user',f.u,stay);applyRole();document.getElementById('lock').style.display='none';document.getElementById('lgE').textContent='';}else{document.getElementById('lgE').textContent='❌ Usuário ou senha inválidos.';}}catch(err){document.getElementById('lgE').textContent='❌ Erro no login: '+(err&&err.message||err);}}
+function applyRole(){const r=sessGet('erp_role')||'gestor';const adm=r==='adm';document.getElementById('dadosCard').style.display=adm?'block':'none';document.getElementById('roleBadge').textContent=(adm?'👑 ADM':'🧑‍💼 GESTOR')+' • '+(sessGet('erp_user')||'');}
+function logout(){['erp_ok','erp_role','erp_user'].forEach(k=>{sessionStorage.removeItem(k);localStorage.removeItem(k);});location.reload();}
+if(sessGet('erp_ok')==='1'){document.getElementById('lock').style.display='none';applyRole();}
+const _lu=localStorage.getItem('erp_last_user');if(_lu){document.getElementById('lgU').value=_lu;document.getElementById('lgP').focus();}
 
 const KEY='biofisio_erp_v2';
 const MES_N={'2026-05':'Maio/2026','2026-06':'Junho/2026','2026-07':'Julho/2026'};
