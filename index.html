@@ -271,7 +271,7 @@ function save(){saveLocal();syncPush();}
 function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){alert('Armazenamento local cheio!');}}
 
 // --- SINCRONIZAÇÃO (Drive deles como cofre — via Apps Script, sem login/token) ---
-const SYNC_FIXO=''; // o ADM cola aqui a URL do App da Web (ou em ⚙️) — vazio = modo local
+const SYNC_FIXO='https://script.google.com/a/macros/biofisio.com/s/AKfycbxig0jIpezOH3wBeV8_PO8lTpTq4aWwL_6goZHRo5CJ4qwSPF-qZVZSugXpyHJ4U3y8/exec'; // Drive da clínica como cofre (fixo p/ todos os aparelhos)
 let SYNC_URL=localStorage.getItem('erp_sync_url')||SYNC_FIXO;
 function syncBadge(s){const e=$('syncB');if(!e)return;e.textContent=s==='online'?'🟢 sincronizado':s==='sync'?'🔄 sincronizando...':s==='err'?'🔴 falha de rede':'⚪ só neste aparelho';}
 let _syncT=null;
