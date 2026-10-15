@@ -27,15 +27,16 @@ Ative o Pages (abaixo) e acesse: `https://deatupi.github.io/riera-tupinamba-erp/
 Para adicionar novos PDFs: suba o arquivo para a pasta do mês e regenere o `manifest.json`
 (ou suba pela interface — fica salvo no navegador).
 
-## ☁️ Upload permanente pela interface (ADM e gestor)
+## 📎 Arquivos novos (rotina simples com Drive)
 
-Marcando **☁️ Publicar online** ao subir NF, comprovante, balancete ou anexo,
-o arquivo vai direto para `docs/` do repositório e aparece para todos em 1–2 min.
-Exige **token 1x por aparelho** (⚙️ → ☁️ Publicação online):
+1. Suba o PDF no **Google Drive** (pasta do mês, como já fazem)
+2. Clique em **Compartilhar → Qualquer pessoa com o link**
+3. No ERP, ao lançar, cole o link no campo **"Link do Drive"**
+4. O 👁 mostra o documento **dentro do sistema** (NF, comprovante, balancete ou saída)
 
-1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained**
-2. Repository access: **Only select repositories → riera-tupinamba-erp**
-3. Permissions → **Contents: Read and write** → Generate → colar no ERP
+O GitHub (`docs/`) segue como **acervo permanente** das 136 NFs + 61 comprovantes +
+4 balancetes já publicados — espaço de sobra. Arquivos do mês corrente podem ir
+só no Drive; no fechamento, a gente arquiva no `docs/`.
 
 ## 🔒 Privacidade
 
