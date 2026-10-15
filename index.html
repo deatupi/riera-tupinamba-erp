@@ -172,11 +172,12 @@ const USERS=[
  {u:'atendimento@biofisio.com',h:'204151860f51e39043c83b79dba6ae078a1029506109fe638195e694f275003c',role:'gestor'}
 ];
 async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function doLogin(){const u=$('lgU').value.trim().toLowerCase(),p=$('lgP').value;const f=USERS.find(x=>x.u===u);if(f&&(await sha(p))===f.h){sessionStorage.setItem('erp_ok','1');sessionStorage.setItem('erp_role',f.role);sessionStorage.setItem('erp_user',f.u);applyRole();$('lock').style.display='none';}else{$('lgE').textContent='❌ Usuário ou senha inválidos.';}}
+async function doLogin(){const u=$('lgU').value.trim().toLowerCase(),p=$('lgP').value;const f=USERS.find(x=>x.u===u);if(f&&(await sha(p))===f.h){localStorage.setItem('erp_last_user',u);sessionStorage.setItem('erp_ok','1');sessionStorage.setItem('erp_role',f.role);sessionStorage.setItem('erp_user',f.u);applyRole();$('lock').style.display='none';}else{$('lgE').textContent='❌ Usuário ou senha inválidos.';}}
 function applyRole(){const r=sessionStorage.getItem('erp_role')||'gestor';const adm=r==='adm';$('dadosCard').style.display=adm?'block':'none';$('roleBadge').textContent=(adm?'👑 ADM':'🧑‍💼 GESTOR')+' • '+sessionStorage.getItem('erp_user');}
 function logout(){sessionStorage.removeItem('erp_ok');sessionStorage.removeItem('erp_role');location.reload();}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&$('lock').style.display!=='none')doLogin();});
 if(sessionStorage.getItem('erp_ok')==='1'){$('lock').style.display='none';applyRole();}
+const _lu=localStorage.getItem('erp_last_user');if(_lu){$('lgU').value=_lu;$('lgP').focus();}
 
 const KEY='biofisio_erp_v2';
 const MES_N={'2026-05':'Maio/2026','2026-06':'Junho/2026','2026-07':'Julho/2026'};
