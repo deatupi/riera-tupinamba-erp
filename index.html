@@ -71,7 +71,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <button data-t="fluxo" onclick="go('fluxo',this)">💰 Fluxo de Caixa</button>
 <button data-t="nfs" onclick="go('nfs',this)">🧾 Notas Fiscais <span class="pill" id="pillNF"></span></button>
 <button data-t="comp" onclick="go('comp',this)">📎 Comprovantes <span class="pill" id="pillC"></span></button>
-<button data-t="bal" onclick="go('bal',this)">📑 Balancetes <span class="pill" id="pillB"></span></button>
+<button data-t="bal" onclick="go('bal',this)">📑 Relatórios e Balancetes <span class="pill" id="pillB"></span></button>
 <button data-t="conf" onclick="go('conf',this)">⚙️ Tipos & Dados</button>
 </nav>
 <main>
@@ -89,11 +89,8 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div><label>&nbsp;</label><button class="btn btn-p" onclick="openLanc()">+ Novo lançamento</button></div>
 </div>
 <div class="toolbar">
-<button class="btn btn-g" onclick="exportCSV()">⬇ Exportar CSV</button>
-<button class="btn btn-g" onclick="window.print()">🖨 Imprimir relatório</button>
 <span class="hint">Coluna <b>Docs</b>: 👁 abre o visualizador com anexo + comprovantes vinculados da saída.</span>
 </div></div>
-<div class="card"><h3 style="margin:0">Relatório — <span id="titMes"></span></h3><div id="relFluxo"></div></div>
 <div class="card"><h3 style="margin:0 0 6px">Lançamentos detalhados</h3><div style="overflow:auto"><table><thead><tr><th>Data</th><th>Tipo</th><th>Categoria / Subitem</th><th>Descrição</th><th class="num">Valor</th><th>Docs</th><th class="noprint">Ações</th></tr></thead><tbody id="tbLanc"></tbody></table></div></div>
 </section>
 <section id="v-nfs" style="display:none">
@@ -113,6 +110,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="hint" id="totComp"></div></div>
 </section>
 <section id="v-bal" style="display:none">
+<div class="card"><div class="toolbar noprint"><button class="btn btn-g" onclick="exportCSV()">⬇ Exportar CSV</button><button class="btn btn-g" onclick="window.print()">🖨 Imprimir relatório</button></div><h3 style="margin:0">📑 Relatório do mês — <span id="titMes"></span></h3><div id="relFluxo"></div></div>
 <div class="card noprint"><div class="row">
 <div><label>Buscar balancete</label><input id="buscaB" placeholder="ex: demonstração, PGDASD..." oninput="renderBal()"></div>
 <div style="flex:1"></div><div><label>&nbsp;</label><button class="btn btn-p" onclick="openBal()">+ Subir Balancete</button></div>
