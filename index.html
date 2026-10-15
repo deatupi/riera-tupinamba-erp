@@ -327,12 +327,12 @@ function render(){
  $('relFluxo').innerHTML=h;
  const q=($('busca').value||'').toLowerCase();
  const tb=ls.filter(l=>(l.descricao+l.categoria+l.subitem).toLowerCase().includes(q)).sort((a,b)=>a.data<b.data?-1:1);
- $('tbLanc').innerHTML=tb.map(l=>{const docs=linkedDocs(l);const sug=l.tipo==='saida'?allComps(l.mes).filter(c=>autoMatch(l,c)&&!(l.links||[]).includes(c.path||'')).length:0;
- const docCell=docs.length?`<span class="filelink" onclick='viewLanc("${l.id}")'>👁 Ver (${docs.length})</span>${sug?` <span class="pill warn">+${sug} sugerido(s)</span>`:''}`:(sug?`<span class="filelink" onclick='viewLanc("${l.id}")'>+ vincular (${sug})</span>`:'<span class="hint">—</span>');
+ $('tbLanc').innerHTML=tb.map(l=>{const docs=linkedDocs(l);
+ const docCell=docs.length?`<span class="filelink" onclick='viewLanc("${l.id}")'>👁 Ver (${docs.length})</span>`:'<span class="hint">—</span>';
  return `<tr><td>${(l.data||'').split('-').reverse().join('/')}</td><td><span class="badge ${l.tipo==='entrada'?'b-entrada':'b-saida'}">${l.tipo.toUpperCase()}</span><div class="hint">${l.forma||''}</div></td><td><b>${l.categoria}</b><div class="hint">${l.subitem||''}</div></td><td>${l.descricao||''}</td><td class="num">${BRL(+l.valor)}</td><td>${docCell}</td><td class="noprint"><button class="btn btn-g" onclick="editLanc('${l.id}')">✏</button> <button class="btn btn-d" onclick="delLanc('${l.id}')">🗑</button></td></tr>`;}).join('')||'<tr><td colspan=7 class="hint">Nenhum lançamento.</td></tr>';
  renderNF();renderComp();renderBal();renderConf();
 }
-function viewLanc(id){const l=DB.lancamentos.find(x=>x.id===id);let docs=linkedDocs(l);if(!docs.length&&l.tipo==='saida'){const sug=allComps(l.mes).filter(c=>autoMatch(l,c)).map(c=>({nome:compDesc(c)+' (sugerido)',tipo:'application/pdf',url:compUrl(c)}));if(!sug.length)return alert('Nenhum comprovante encontrado para esta saída. Vincule pelo ✏ ou suba na aba Comprovantes.');return viewDocs('Sugestões — '+l.subitem,sug);}viewDocs((l.subitem||l.descricao||'Lançamento')+` — ${BRL(l.valor)}`,docs);}
+function viewLanc(id){const l=DB.lancamentos.find(x=>x.id===id);const docs=linkedDocs(l);if(!docs.length)return alert('Sem documentos. Clique em ✏ para anexar o arquivo ou vincular o comprovante.');viewDocs((l.subitem||l.descricao||'Lançamento')+` — ${BRL(l.valor)}`,docs);}
 function saveSaldo(){DB.saldos[MES]=parseFloat($('saldoAnt').value||0);save();render();}
 function updCat(){const t=$('fTipo').value;const c=$('fCat');if(t==='entrada'){c.innerHTML=`<option>ENTRADAS</option>`;$('fForma').innerHTML=DB.tiposEntrada.map(x=>`<option>${x}</option>`).join('');$('dlSub').innerHTML=DB.tiposEntrada.map(x=>`<option value="${x}">`).join('');$('linkBox').style.display='none';}else{c.innerHTML=Object.keys(DB.categorias).map(k=>`<option>${k}</option>`).join('');updSub();$('fForma').innerHTML='<option value="">—</option>';$('linkBox').style.display='block';refreshLinks();}}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='fCat'&&$('fTipo').value==='saida')updSub();if(e.target&&['fCat','fSub','fDesc'].includes(e.target.id))refreshLinks();});
