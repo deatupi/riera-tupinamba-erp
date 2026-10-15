@@ -124,6 +124,10 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="row noprint"><div style="flex:1"><input id="newTE" placeholder="Ex: Pix, Transferência..."></div><div><button class="btn btn-p" onclick="addTE()">Adicionar</button></div></div></div>
 <div class="card"><h3>Categorias de Saída</h3><div id="listCat"></div>
 <div class="row noprint"><div style="flex:1"><input id="newCat" placeholder="Nova categoria. Ex: PESSOAL"></div><div><button class="btn btn-p" onclick="addCat()">Adicionar categoria</button></div></div></div>
+<div class="card noprint" id="cloudCard"><h3>☁️ Publicação online (para ADM e gestor)</h3>
+<p class="hint">Arquivos subidos <b>com ☁️ marcado</b> vão para a pasta <b>docs/</b> do repositório — permanentes no site, igual aos que subimos pelo computador. Sem ☁️, ficam só neste navegador.<br><b>Token (colar 1x por aparelho):</b> GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained</b> → Generate new → Repository access: <b>Only select repositories → riera-tupinamba-erp</b> → Permissions → <b>Contents: Read and write</b> → Generate token.</p>
+<div class="row"><div style="flex:1"><input id="ghTok" type="password" placeholder="github_pat_..."></div><div><button class="btn btn-p" onclick="saveTok()">Salvar token</button></div><div><button class="btn btn-g" onclick="clearTok()">Remover</button></div></div>
+<p class="hint" id="tokStat"></p></div>
 <div class="card noprint" id="dadosCard"><h3>Dados</h3><div class="toolbar">
 <button class="btn btn-s" onclick="backup()">💾 Backup (JSON)</button>
 <button class="btn btn-g" onclick="document.getElementById('restFile').click()">♻ Restaurar backup</button><input type="file" id="restFile" accept=".json" style="display:none" onchange="restore(this)">
@@ -142,6 +146,7 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="row"><div style="flex:1"><label>Valor (R$)</label><input id="fValor" type="number" step="0.01" min="0"></div>
 <div style="flex:1"><label>Forma (entradas)</label><select id="fForma"></select></div></div>
 <div><label>Anexo direto (opcional)</label><input id="fFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
+<div><label style="font-weight:400;color:var(--ink)"><input type="checkbox" id="fPub" style="width:auto"> ☁️ Publicar anexo online (docs/ permanente)</label><p class="hint" id="fStat"></p></div>
 <div id="linkBox" style="margin-top:8px"><label>Vincular comprovantes do mês (saídas) — abre junto no 👁</label><div class="linklist" id="linkList"></div></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveLanc()">Salvar</button><button class="btn btn-g" onclick="closeM('mLanc')">Cancelar</button></div>
 </div></div>
@@ -149,16 +154,19 @@ td.num,th.num{text-align:right;white-space:nowrap}
 <div class="row"><div><label>Número</label><input id="nNum" type="number"></div><div style="flex:1"><label>Cliente</label><input id="nCli"></div></div>
 <div class="row"><div style="flex:1"><label>Data emissão</label><input id="nData" type="date"></div><div style="flex:1"><label>Valor (R$)</label><input id="nValor" type="number" step="0.01"></div></div>
 <div><label>Arquivo PDF da NF</label><input id="nFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.xml"></div>
+<div><label style="font-weight:400;color:var(--ink)"><input type="checkbox" id="nPub" style="width:auto" checked> ☁️ Publicar online (docs/ permanente)</label><p class="hint" id="nStat"></p></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveNF()">Salvar NF</button><button class="btn btn-g" onclick="closeM('mNF')">Cancelar</button></div></div></div>
 <div class="modal" id="mComp"><div class="box"><h3>Comprovante de Pagamento</h3><input type="hidden" id="cId">
 <div><label>Fornecedor / Descrição</label><input id="cDesc" placeholder="Ex: Light, Aluguel, DAS..."></div>
 <div class="row"><div style="flex:1"><label>Mês competência</label><select id="cMes"></select></div><div style="flex:1"><label>Valor (R$) — opcional</label><input id="cValor" type="number" step="0.01"></div></div>
 <div><label>Arquivo do comprovante</label><input id="cFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+<div><label style="font-weight:400;color:var(--ink)"><input type="checkbox" id="cPub" style="width:auto" checked> ☁️ Publicar online (docs/ permanente)</label><p class="hint" id="cStat"></p></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveComp()">Salvar</button><button class="btn btn-g" onclick="closeM('mComp')">Cancelar</button></div></div></div>
 <div class="modal" id="mBal"><div class="box"><h3>Balancete / Demonstrativo da Contadora</h3><input type="hidden" id="bId">
 <div><label>Descrição</label><input id="bDesc" placeholder="Ex: Demonstração do Resultado assinada, PGDASD..."></div>
 <div class="row"><div style="flex:1"><label>Mês competência</label><select id="bMes"></select></div></div>
 <div><label>Arquivo PDF assinado</label><input id="bFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+<div><label style="font-weight:400;color:var(--ink)"><input type="checkbox" id="bPub" style="width:auto" checked> ☁️ Publicar online (docs/ permanente)</label><p class="hint" id="bStat"></p></div>
 <div class="toolbar"><button class="btn btn-p" onclick="saveBal()">Salvar</button><button class="btn btn-g" onclick="closeM('mBal')">Cancelar</button></div></div></div>
 <div class="modal" id="mView"><div class="box wide"><h3 id="vTit">Documentos</h3><div class="doctabs" id="vTabs"></div><div id="vBody"></div><div class="toolbar"><a id="vDown" class="btn btn-s" download target="_blank" rel="noopener">⬇ Abrir / Baixar</a><button class="btn btn-g" onclick="closeM('mView')">Fechar</button></div></div></div>
 <script>
@@ -271,7 +279,7 @@ function autoMatch(lanc,comp){const hay=norm((lanc.categoria||'')+' '+(lanc.subi
 function compDesc(c){return c.nome||c.descricao||c.arquivo||'';}
 function compUrl(c){return c.url||enc(c.path);}
 function allComps(mes){return [...REPO.comprovantes.filter(c=>c.mes===mes).map(c=>({...c,orig:'repo'})),...(DB.compExtra||[]).filter(c=>c.mes===mes).map(c=>({...c,orig:'local',url:c.arquivoDataUrl}))];}
-function linkedDocs(l){const docs=[];if(l.anexoDataUrl)docs.push({nome:l.anexoNome||'Anexo',tipo:l.anexoTipo,url:l.anexoDataUrl});(l.links||[]).forEach(p=>{const c=allComps(l.mes).find(x=>(x.path||'')===p);if(c)docs.push({nome:compDesc(c)+(c.valor?' — '+BRL(c.valor):''),tipo:'application/pdf',url:compUrl(c)});});return docs;}
+function linkedDocs(l){const docs=[];if(l.anexoDataUrl)docs.push({nome:l.anexoNome||'Anexo',tipo:l.anexoTipo,url:l.anexoDataUrl});(l.links||[]).forEach(p=>{const c=allComps(l.mes).find(x=>(x.path||'')===p);if(c)docs.push({nome:compDesc(c)+(c.valor?' — '+BRL(c.valor):''),tipo:'application/pdf',url:compUrl(c)});else docs.push({nome:p.split('/').pop(),tipo:'application/pdf',url:enc(p)});});return docs;}
 
 function mesesDisponiveis(){const s=new Set([...Object.keys(MES_N),...DB.lancamentos.map(l=>l.mes),...Object.keys(DB.saldos)]);return [...s].sort();}
 function setMes(v){MES=v;render();}
@@ -280,6 +288,23 @@ function closeM(id){$(id).classList.remove('open');}
 function viewDocs(titulo,docs){if(!docs.length)return alert('Sem documentos vinculados.');$('vTit').textContent=titulo;const tabs=$('vTabs');tabs.innerHTML=docs.map((d,i)=>`<button class="${i===0?'on':''}" onclick="showDoc(${i})">${(d.nome||'doc').slice(0,28)}</button>`).join('');window._docs=docs;showDoc(0);$('mView').classList.add('open');}
 function showDoc(i){const d=window._docs[i];document.querySelectorAll('#vTabs button').forEach((b,j)=>b.classList.toggle('on',j===i));const b=$('vBody');const isImg=(d.tipo||'').includes('image')||/\.(jpg|jpeg|png)$/i.test(d.url||'');b.innerHTML=isImg?`<img src="${d.url}" style="max-width:100%;border-radius:8px">`:`<iframe src="${d.url}" style="width:100%;height:60vh;border:0"></iframe>`;$('vDown').href=d.url;}
 function fileToDataUrl(inp,cb){const f=inp.files[0];if(!f)return cb(null);if(f.size>2.5*1024*1024){if(!confirm('Arquivo com '+(f.size/1048576).toFixed(1)+'MB. Pode lotar o armazenamento local. Continuar?'))return cb(null);}const r=new FileReader();r.onload=()=>cb({nome:f.name,tipo:f.type,url:r.result});r.readAsDataURL(f);}
+
+// --- PUBLICAÇÃO ONLINE (GitHub: docs/ permanente, igual ao upload pelo PC) ---
+const GH={owner:'deatupi',repo:'riera-tupinamba-erp',branch:'main'};
+const ghTok=()=>localStorage.getItem('erp_gh_token')||'';
+function saveTok(){const v=$('ghTok').value.trim();if(!v)return alert('Cole o token.');localStorage.setItem('erp_gh_token',v);$('ghTok').value='';tokStat();alert('Token salvo neste navegador. ✅');}
+function clearTok(){localStorage.removeItem('erp_gh_token');tokStat();}
+function tokStat(){const t=ghTok();if(!$('tokStat'))return;$('tokStat').textContent=t?'✅ Token configurado — uploads com ☁️ vão para docs/ do repositório.':'⚠️ Sem token — uploads ficam só neste navegador.';}
+const ghPath=p=>p.split('/').map(s=>encodeURIComponent(s)).join('/');
+async function ghPut(path,b64,msg){const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${ghPath(path)}`,{method:'PUT',headers:{Authorization:'Bearer '+ghTok(),'Content-Type':'application/json'},body:JSON.stringify({message:msg,content:b64,branch:GH.branch})});if(!r.ok)throw new Error('GitHub HTTP '+r.status);return r.json();}
+async function ghExists(path){try{const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${ghPath(path)}?ref=${GH.branch}`,{headers:{Authorization:'Bearer '+ghTok()}});return r.ok;}catch(e){return false;}}
+async function uniqPath(p){if(!(await ghExists(p)))return p;const i=p.lastIndexOf('.');let n=2,p2='';do{p2=p.slice(0,i)+` (${n})`+p.slice(i);n++;}while(await ghExists(p2));return p2;}
+const san=s=>(s||'arquivo').replace(/[/\\?%*:|"<>]/g,'-').trim().slice(0,120);
+const b64enc=o=>btoa(String.fromCharCode(...new TextEncoder().encode(o)));
+const b64dec=b=>JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g,'')),c=>c.charCodeAt(0))));
+async function manifestAdd(kind,entry){const api=`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/docs/manifest.json?ref=${GH.branch}`;const r=await fetch(api,{headers:{Authorization:'Bearer '+ghTok()}});if(!r.ok)throw new Error('manifest HTTP '+r.status);const j=await r.json();const man=b64dec(j.content);man[kind]=man[kind]||[];if(!man[kind].some(e=>e.path===entry.path))man[kind].push(entry);const r2=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/docs/manifest.json`,{method:'PUT',headers:{Authorization:'Bearer '+ghTok(),'Content-Type':'application/json'},body:JSON.stringify({message:`ERP: indice ${entry.path}`,content:b64enc(JSON.stringify(man)),sha:j.sha,branch:GH.branch})});if(!r2.ok)throw new Error('indice HTTP '+r2.status);}
+async function pubFile(kind,mes,name,b64,statEl){const p=await uniqPath(`docs/${kind}/${mes}/${san(name)}`);statEl.textContent='☁️ Enviando para o repositório...';await ghPut(p,b64,`ERP: upload ${p}`);return p;}
+function needPub(pubId,fileInp){if(!$(pubId).checked)return null;if(!fileInp.files[0]){alert('Anexe o arquivo para publicar online.');return undefined;}if(!ghTok()){alert('Configure o token em ⚙️ → ☁️ Publicação online (1x por aparelho).');return undefined;}return true;}
 
 function totais(mes){const ls=DB.lancamentos.filter(l=>l.mes===mes);const e=ls.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+ +l.valor,0);const s=ls.filter(l=>l.tipo==='saida').reduce((s,l)=>s+ +l.valor,0);const ant=+(DB.saldos[mes]||0);return{ent:e,sai:s,ant,fin:ant+e-s};}
 function render(){
@@ -316,20 +341,23 @@ document.addEventListener('change',e=>{if(e.target&&e.target.id==='fCat'&&$('fTi
 function updSub(){const subs=DB.categorias[$('fCat').value]||[];$('dlSub').innerHTML=subs.map(x=>`<option value="${x}">`).join('');}
 function curLancDraft(){return{categoria:$('fCat').value,subitem:$('fSub').value,descricao:$('fDesc').value,mes:($('fData').value||MES+'-10').slice(0,7)};}
 function refreshLinks(){if($('fTipo').value!=='saida')return;const d=curLancDraft();const comps=allComps(d.mes);$('linkList').innerHTML=comps.length?comps.map((c,i)=>{const key=c.path||c.id;const checked=(window._editLinks||[]).includes(key)||autoMatch(d,c);return `<label><input type="checkbox" data-k="${key}" ${checked?'checked':''}> 📄 ${compDesc(c)} ${c.orig==='repo'?'<span class="pill">online</span>':'<span class="pill warn">local</span>'}</label>`;}).join(''):'<span class="hint">Nenhum comprovante neste mês ainda. Suba na aba 📎.</span>';}
-function openLanc(){window._editLinks=[];$('mLancT').textContent='Novo lançamento';$('fId').value='';$('fData').value=MES+'-10';$('fTipo').value='entrada';updCat();$('fSub').value='';$('fDesc').value='';$('fValor').value='';$('fFile').value='';$('mLanc').classList.add('open');}
+function openLanc(){window._editLinks=[];$('mLancT').textContent='Novo lançamento';$('fId').value='';$('fData').value=MES+'-10';$('fTipo').value='entrada';updCat();$('fSub').value='';$('fDesc').value='';$('fValor').value='';$('fFile').value='';$('fPub').checked=false;$('fStat').textContent='';$('mLanc').classList.add('open');}
 function editLanc(id){const l=DB.lancamentos.find(x=>x.id===id);window._editLinks=[...(l.links||[])];$('mLancT').textContent='Editar lançamento';$('fId').value=l.id;$('fData').value=l.data;$('fTipo').value=l.tipo;updCat();$('fCat').value=l.categoria;if(l.tipo==='saida'){$('fSub').value=l.subitem||'';refreshLinks();}$('fDesc').value=l.descricao||'';$('fValor').value=l.valor;$('fFile').value='';$('mLanc').classList.add('open');}
 function delLanc(id){if(!confirm('Excluir lançamento?'))return;DB.lancamentos=DB.lancamentos.filter(x=>x.id!==id);save();render();}
-function saveLanc(){const id=$('fId').value;const data=$('fData').value||(MES+'-10');const mes=data.slice(0,7);const obj={id:id||uid(),mes,data,tipo:$('fTipo').value,categoria:$('fCat').value,subitem:$('fSub').value.trim(),descricao:$('fDesc').value.trim(),valor:parseFloat($('fValor').value||0),forma:$('fForma').value||'',links:[...document.querySelectorAll('#linkList input:checked')].map(i=>i.dataset.k)};
+function saveLanc(){const id=$('fId').value;const data=$('fData').value||(MES+'-10');const mes=data.slice(0,7);const pub=needPub('fPub',$('fFile'));if(pub===undefined)return;const obj={id:id||uid(),mes,data,tipo:$('fTipo').value,categoria:$('fCat').value,subitem:$('fSub').value.trim(),descricao:$('fDesc').value.trim(),valor:parseFloat($('fValor').value||0),forma:$('fForma').value||'',links:[...document.querySelectorAll('#linkList input:checked')].map(i=>i.dataset.k)};
  if(!(obj.valor>0))return alert('Informe o valor.');
  const done=(anx)=>{if(anx){obj.anexoNome=anx.nome;obj.anexoTipo=anx.tipo;obj.anexoDataUrl=anx.url;}else if(id){const old=DB.lancamentos.find(x=>x.id===id);obj.anexoNome=old.anexoNome;obj.anexoTipo=old.anexoTipo;obj.anexoDataUrl=old.anexoDataUrl;}else{obj.anexoNome='';obj.anexoTipo='';obj.anexoDataUrl='';}
  if(id){DB.lancamentos[DB.lancamentos.findIndex(x=>x.id===id)]=obj;}else DB.lancamentos.push(obj);
  if(obj.tipo==='saida'&&obj.subitem&&DB.categorias[obj.categoria]&&!DB.categorias[obj.categoria].includes(obj.subitem))DB.categorias[obj.categoria].push(obj.subitem);
  if(!DB.saldos[mes])DB.saldos[mes]=0;MES=mes;save();closeM('mLanc');render();};
+ if(pub){const f=$('fFile').files[0];const r=new FileReader();r.onload=async()=>{try{const b64=String(r.result).split(',')[1];const p=await pubFile('anexos',mes,f.name,b64,$('fStat'));obj.links.push(p);obj.anexoNome='';obj.anexoTipo='';obj.anexoDataUrl='';$('fStat').textContent='✅ Publicado online! Vale para todos em 1–2 min.';done(null);}catch(e){$('fStat').textContent='❌ Falha: '+e.message;}};r.readAsDataURL(f);return;}
  fileToDataUrl($('fFile'),done);}
 function exportCSV(){const ls=DB.lancamentos.filter(l=>l.mes===MES);let c='data;tipo;categoria;subitem;descricao;valor;forma;docs\n';ls.forEach(l=>c+=`${l.data};${l.tipo};${l.categoria};${l.subitem};${(l.descricao||'').replace(/;/g,',')};${l.valor};${l.forma};${(l.links||[]).join('|')}\n`);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download=`fluxo-${MES}.csv`;a.click();}
 
-function openNF(){$('nId').value='';$('nNum').value='';$('nCli').value='';$('nData').value=MES+'-10';$('nValor').value='';$('nFile').value='';$('mNF').classList.add('open');}
-function saveNF(){const id=$('nId').value;const num=parseInt($('nNum').value||0);if(!num)return alert('Informe o número da NF.');const obj={id:id||uid(),mes:($('nData').value||MES+'-10').slice(0,7),numero:num,cliente:$('nCli').value.trim(),data:$('nData').value,valor:parseFloat($('nValor').value||0)};
+function openNF(){$('nId').value='';$('nNum').value='';$('nCli').value='';$('nData').value=MES+'-10';$('nValor').value='';$('nFile').value='';$('nStat').textContent='';$('mNF').classList.add('open');}
+function saveNF(){const num=parseInt($('nNum').value||0);if(!num)return alert('Informe o número da NF.');const mes=($('nData').value||MES+'-10').slice(0,7);const cli=$('nCli').value.trim();const pub=needPub('nPub',$('nFile'));if(pub===undefined)return;
+ if(pub){const f=$('nFile').files[0];const r=new FileReader();r.onload=async()=>{try{const b64=String(r.result).split(',')[1];const ext=(f.name.split('.').pop()||'pdf').slice(0,4);const p=await pubFile('nfs',mes,`NF ${num} - ${cli||'avulsa'}.${ext}`,b64,$('nStat'));const e={mes,numero:num,cliente:cli,path:p};await manifestAdd('nfs',e);REPO.nfs.push(e);$('nStat').textContent='✅ Publicado online! Vale para todos em 1–2 min.';closeM('mNF');render();}catch(e){$('nStat').textContent='❌ Falha: '+e.message;}};r.readAsDataURL(f);return;}
+ const obj={id:uid(),mes,numero:num,cliente:cli,data:$('nData').value,valor:parseFloat($('nValor').value||0)};
  fileToDataUrl($('nFile'),(anx)=>{if(anx){obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;}else{obj.arquivoNome='';obj.arquivoTipo='';obj.arquivoDataUrl='';}
  DB.nfsExtra.push(obj);save();closeM('mNF');render();});}
 function renderNF(){const q=($('buscaNF').value||'').toLowerCase();
@@ -341,9 +369,11 @@ function renderNF(){const q=($('buscaNF').value||'').toLowerCase();
  $('totNF').textContent=`${repo.length} nota(s) online + ${extra.length} avulsa(s)`;}
 function delNF(id){if(!confirm('Excluir NF?'))return;DB.nfsExtra=DB.nfsExtra.filter(x=>x.id!==id);save();render();}
 
-function openComp(){const ms=mesesDisponiveis();$('cMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('cId').value='';$('cDesc').value='';$('cValor').value='';$('cFile').value='';$('mComp').classList.add('open');}
-function saveComp(){const obj={id:uid(),mes:$('cMes').value,descricao:$('cDesc').value.trim(),valor:parseFloat($('cValor').value||0)};
- if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('cFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.compExtra.push(obj);save();closeM('mComp');render();});}
+function openComp(){const ms=mesesDisponiveis();$('cMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('cId').value='';$('cDesc').value='';$('cValor').value='';$('cFile').value='';$('cStat').textContent='';$('mComp').classList.add('open');}
+function saveComp(){const mes=$('cMes').value;const desc=$('cDesc').value.trim();const valor=parseFloat($('cValor').value||0);if(!desc)return alert('Informe a descrição.');const pub=needPub('cPub',$('cFile'));if(pub===undefined)return;
+ if(pub){const f=$('cFile').files[0];const r=new FileReader();r.onload=async()=>{try{const b64=String(r.result).split(',')[1];const p=await pubFile('comprovantes',mes,f.name,b64,$('cStat'));const e={mes,nome:desc,arquivo:p.split('/').pop(),path:p,size:f.size};await manifestAdd('comprovantes',e);REPO.comprovantes.push(e);$('cStat').textContent='✅ Publicado online! Vale para todos em 1–2 min.';closeM('mComp');render();}catch(e){$('cStat').textContent='❌ Falha: '+e.message;}};r.readAsDataURL(f);return;}
+ const obj={id:uid(),mes,descricao:desc,valor};
+ fileToDataUrl($('cFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.compExtra.push(obj);save();closeM('mComp');render();});}
 function renderComp(){const q=($('buscaC').value||'').toLowerCase();
  const repo=REPO.comprovantes.filter(c=>c.mes===MES&&(c.nome).toLowerCase().includes(q));
  const extra=(DB.compExtra||[]).filter(c=>c.mes===MES&&(c.descricao).toLowerCase().includes(q));
@@ -355,9 +385,11 @@ function renderComp(){const q=($('buscaC').value||'').toLowerCase();
 function delComp(id){if(!confirm('Excluir comprovante?'))return;DB.compExtra=DB.compExtra.filter(x=>x.id!==id);save();render();}
 
 // --- BALANCETES ---
-function openBal(){const ms=mesesDisponiveis();$('bMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('bId').value='';$('bDesc').value='';$('bFile').value='';$('mBal').classList.add('open');}
-function saveBal(){const obj={id:uid(),mes:$('bMes').value,descricao:$('bDesc').value.trim()};
- if(!obj.descricao)return alert('Informe a descrição.');fileToDataUrl($('bFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.balExtra.push(obj);save();closeM('mBal');render();});}
+function openBal(){const ms=mesesDisponiveis();$('bMes').innerHTML=ms.map(m=>`<option value="${m}" ${m===MES?'selected':''}>${MES_N[m]||m}</option>`).join('');$('bId').value='';$('bDesc').value='';$('bFile').value='';$('bStat').textContent='';$('mBal').classList.add('open');}
+function saveBal(){const mes=$('bMes').value;const desc=$('bDesc').value.trim();if(!desc)return alert('Informe a descrição.');const pub=needPub('bPub',$('bFile'));if(pub===undefined)return;
+ if(pub){const f=$('bFile').files[0];const r=new FileReader();r.onload=async()=>{try{const b64=String(r.result).split(',')[1];const p=await pubFile('balancetes',mes,f.name,b64,$('bStat'));const e={mes,nome:desc,desc:desc,path:p};await manifestAdd('balancetes',e);REPO.balancetes.push(e);$('bStat').textContent='✅ Publicado online! Vale para todos em 1–2 min.';closeM('mBal');render();}catch(e){$('bStat').textContent='❌ Falha: '+e.message;}};r.readAsDataURL(f);return;}
+ const obj={id:uid(),mes,descricao:desc};
+ fileToDataUrl($('bFile'),(anx)=>{if(!anx)return alert('Anexe o arquivo.');obj.arquivoNome=anx.nome;obj.arquivoTipo=anx.tipo;obj.arquivoDataUrl=anx.url;DB.balExtra.push(obj);save();closeM('mBal');render();});}
 function renderBal(){const q=($('buscaB').value||'').toLowerCase();
  const repo=(REPO.balancetes||[]).filter(b=>b.mes===MES&&(b.nome+' '+(b.desc||'')).toLowerCase().includes(q));
  const extra=(DB.balExtra||[]).filter(b=>b.mes===MES&&(b.descricao||'').toLowerCase().includes(q));
@@ -367,7 +399,7 @@ function renderBal(){const q=($('buscaB').value||'').toLowerCase();
  $('totBal').textContent=`${repo.length} online + ${extra.length} avulso(s) em ${MES_N[MES]||MES}`;}
 function delBal(id){if(!confirm('Excluir balancete?'))return;DB.balExtra=DB.balExtra.filter(x=>x.id!==id);save();render();}
 
-function renderConf(){$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
+function renderConf(){tokStat();$('listTE').innerHTML=DB.tiposEntrada.map((t,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9"><span class="tag">${t}</span><button class="btn btn-d noprint" style="padding:4px 10px;margin-left:auto" onclick="delTE(${i})">✕</button></div>`).join('');
  $('listCat').innerHTML=Object.entries(DB.categorias).map(([c,subs])=>`<div style="padding:8px 0;border-bottom:1px solid #f1f5f9"><b>${c}</b> <button class="btn btn-d noprint" style="padding:2px 8px" onclick="delCat('${c}')">✕</button><div class="hint">${subs.join(' • ')||'sem subitens'}</div></div>`).join('');}
 function addTE(){const v=$('newTE').value.trim();if(!v)return;DB.tiposEntrada.push(v);$('newTE').value='';save();render();}
 function delTE(i){DB.tiposEntrada.splice(i,1);save();render();}

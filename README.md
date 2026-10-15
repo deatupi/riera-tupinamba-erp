@@ -27,6 +27,16 @@ Ative o Pages (abaixo) e acesse: `https://deatupi.github.io/riera-tupinamba-erp/
 Para adicionar novos PDFs: suba o arquivo para a pasta do mês e regenere o `manifest.json`
 (ou suba pela interface — fica salvo no navegador).
 
+## ☁️ Upload permanente pela interface (ADM e gestor)
+
+Marcando **☁️ Publicar online** ao subir NF, comprovante, balancete ou anexo,
+o arquivo vai direto para `docs/` do repositório e aparece para todos em 1–2 min.
+Exige **token 1x por aparelho** (⚙️ → ☁️ Publicação online):
+
+1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained**
+2. Repository access: **Only select repositories → riera-tupinamba-erp**
+3. Permissions → **Contents: Read and write** → Generate → colar no ERP
+
 ## 🔒 Privacidade
 
 Repositório **privado**: só colaboradores com acesso ao repo enxergam o Pages.
